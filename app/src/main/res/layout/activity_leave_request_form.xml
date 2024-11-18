@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+        <!-- Header -->
+        <TextView
+            android:id="@+id/tvHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Leave Request Form"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"
+            android:gravity="center" />
+
+        <!-- Employee Name/ID -->
+        <TextView
+            android:id="@+id/tvEmployeeNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Employee Name/ID:"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/etEmployeeName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Employee Name or ID"
+            android:inputType="text"
+            android:background="@drawable/edittext_border"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Date Range -->
+        <TextView
+            android:id="@+id/tvDateRangeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date Range for Leave:"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/etDateRange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Date Range (e.g., 12 Nov - 18 Nov)"
+            android:inputType="text"
+            android:background="@drawable/edittext_border"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Reason for Leave -->
+        <TextView
+            android:id="@+id/tvReasonLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reason for leave:"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/etReason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Reason for Leave"
+            android:inputType="textMultiLine"
+            android:background="@drawable/edittext_border"
+            android:padding="12dp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:backgroundTint="@color/green"
+            android:textColor="@color/white"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,101 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Back Button -->
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white" />
+
+        <!-- Employee Profile Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="24dp">
+
+            <ImageView
+                android:id="@+id/profile_picture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/profile"
+                android:layout_marginBottom="8dp"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/employee_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loading..."
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/avgScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Average Score: --"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/performanceLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Performance Level: --"
+                android:textSize="16sp"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <!-- Performance Goals Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Goals"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:textColor="@android:color/black" />
+
+        <ListView
+            android:id="@+id/goalList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Performance Reviews Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recent Reviews"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:textColor="@android:color/black" />
+
+        <ListView
+            android:id="@+id/reviewList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp" />
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,145 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Profile Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingBottom="24dp">
+
+            <ImageView
+                android:id="@+id/profile_picture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/employee_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fetching Name..."
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/job_role"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fetching Role..."
+                android:textSize="16sp"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <!-- Performance Score -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_marginBottom="24dp"
+            android:background="@android:color/holo_green_light"
+            android:gravity="center_horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/performance_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Avg. Score: N/A"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/performance_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="N/A"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Add Goal Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:layout_marginBottom="8dp"
+            android:text="Set a New Goal"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/goalDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your goal"
+            android:inputType="text"
+            android:background="@android:color/darker_gray"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/goalStartDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Start Date (yyyy-mm-dd)"
+            android:inputType="date"
+            android:background="@android:color/darker_gray"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/goalEndDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="End Date (yyyy-mm-dd)"
+            android:inputType="date"
+            android:background="@android:color/darker_gray"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/goalHours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter hours worked (e.g., 4)"
+            android:inputType="numberDecimal"
+            android:background="@android:color/darker_gray"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnSaveGoal"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:color/black"
+            android:text="Save Goal"
+            android:textColor="@android:color/white" />
+
+        <!-- Back Button -->
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
+            android:layout_gravity="start"
+            android:layout_marginBottom="16dp" />
+    </LinearLayout>
+</ScrollView>

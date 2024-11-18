@@ -1,0 +1,103 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="112dp"
+            android:background="@android:color/holo_blue_light"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvAttendanceTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Attendance Management"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Manage your attendance and leave details"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Attendance Switch Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:padding="12dp"
+            android:background="@android:color/darker_gray"
+            android:elevation="4dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mark Attendance for Today"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
+
+            <Switch
+                android:id="@+id/switchMarkAttendance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:thumbTint="@android:color/holo_green_light"
+                android:trackTint="@android:color/white" />
+        </LinearLayout>
+
+        <!-- Buttons Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Leave Management"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:textColor="@android:color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnLeaveBalances"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="View Leave Balances"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/btnLeaveRequestForm"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Leave Request Form"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

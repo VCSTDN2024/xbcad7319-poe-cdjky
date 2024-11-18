@@ -1,0 +1,115 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#BA9D9D"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Custom Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B99C9C"
+        android:title="Employee Details"
+        android:titleTextColor="@android:color/white" />
+
+    <!-- Employee Details Header -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:text="Employee Details"
+        android:textSize="24sp" />
+
+    <!-- Employee Name -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:text="Name: "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvEmployeeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:textSize="16sp" />
+
+    <!-- Employee Pronouns -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:text="Pronouns: "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvEmployeePronouns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:textSize="16sp" />
+
+    <!-- Employee Job Role -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:text="Job Role: "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvEmployeeRole"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:textSize="16sp" />
+
+    <!-- Employee Reporting To -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:text="Reporting To: "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvEmployeeReportingTo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:textSize="16sp" />
+
+    <!-- Employee Phone -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:text="Phone: "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvEmployeePhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:textSize="16sp" />
+
+    <!-- Employee Email -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:text="Email: "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvEmployeeEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:textSize="16sp" />
+
+</LinearLayout>

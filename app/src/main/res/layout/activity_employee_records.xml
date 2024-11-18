@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#AC9B9B"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Employee Name Input -->
+    <EditText
+        android:id="@+id/etEmployeeName"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="Name"
+        android:inputType="text" />
+
+    <!-- Pronouns Input -->
+    <EditText
+        android:id="@+id/etEmployeePronouns"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:hint="Pronouns"
+        android:inputType="text" />
+
+    <!-- Job Role Input -->
+    <EditText
+        android:id="@+id/etEmployeeRole"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="Job Role"
+        android:inputType="text" />
+
+    <!-- Reporting To Input -->
+    <EditText
+        android:id="@+id/etEmployeeReportingTo"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:hint="Reporting To"
+        android:inputType="text" />
+
+    <!-- Employee Phone Input -->
+    <EditText
+        android:id="@+id/etEmployeePhone"
+        android:layout_width="match_parent"
+        android:layout_height="59dp"
+        android:hint="Phone"
+        android:inputType="phone" />
+
+    <!-- Employee Email Input -->
+    <EditText
+        android:id="@+id/etEmployeeEmail"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
+
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/btnSaveEmployee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#191313"
+        android:text="Save" />
+
+    <!-- Search Employee Input -->
+    <EditText
+        android:id="@+id/etSearchEmployee"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="Search Employees"
+        android:inputType="text" />
+
+    <!-- List of Employees -->
+    <ListView
+        android:id="@+id/lvEmployeeResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

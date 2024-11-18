@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#595D6B"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+
+    <!-- Sign Up Text -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="234dp"
+        app:srcCompat="@drawable/work_wise_hr_management" />
+
+    <TextView
+        android:id="@+id/tvSignUpNow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/adlam_display"
+        android:text="Sign Up Now"
+        android:textSize="24sp" />
+
+    <!-- Name Field -->
+    <EditText
+        android:id="@+id/etFullName"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_marginTop="16dp"
+        android:hint="Name"
+        android:inputType="textPersonName" />
+
+    <!-- Email Field -->
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_marginTop="16dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
+
+    <!-- Password Field -->
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_marginTop="16dp"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <!-- Confirm Password Field -->
+    <EditText
+        android:id="@+id/etConfirmPassword"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_marginTop="16dp"
+        android:hint="Confirm Password"
+        android:inputType="textPassword" />
+
+    <!-- Sign Up Button -->
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#000000"
+        android:text="Sign Up"
+        android:textColor="@android:color/white" />
+
+    <!-- Sign Up Link to Log In -->
+    <TextView
+        android:id="@+id/tvAlreadyHaveAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Already have an account? Log In" />
+
+</LinearLayout>

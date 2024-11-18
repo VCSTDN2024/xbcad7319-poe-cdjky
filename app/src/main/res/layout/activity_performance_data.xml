@@ -1,0 +1,119 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Back Button -->
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:backgroundTint="@android:color/holo_blue_light"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Performance Data"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"
+            android:textColor="@android:color/black" />
+
+        <!-- Employee Name/ID -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Employee Name/ID:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/employeeName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Employee Name/ID"
+            android:background="@android:color/darker_gray"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Month -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Month:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/month"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Month (e.g., January)"
+            android:background="@android:color/darker_gray"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Year -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Year:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Year (e.g., 2024)"
+            android:background="@android:color/darker_gray"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Review of Performance -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Review of Performance:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/performanceReview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Review Details"
+            android:background="@android:color/darker_gray"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:backgroundTint="@android:color/holo_green_light"
+            android:textColor="@android:color/white"
+            android:padding="16dp" />
+    </LinearLayout>
+</ScrollView>

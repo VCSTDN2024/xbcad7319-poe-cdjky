@@ -1,0 +1,211 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Back Button Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Back Button -->
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <!-- Header Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/holo_blue_light"
+            android:padding="16dp"
+            android:elevation="4dp">
+
+            <!-- Welcome Message -->
+            <TextView
+                android:id="@+id/tvPayrollUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome, [User Name]"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+        </LinearLayout>
+
+        <!-- Payroll Banner -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@android:color/white"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payroll"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="See all of the finances of the team"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"
+                android:textColor="@android:color/darker_gray" />
+        </LinearLayout>
+
+        <!-- Services Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Our Services"
+            android:layout_marginTop="16dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_marginTop="16dp"
+            android:padding="8dp">
+
+            <!-- Button 1: Monthly Pay Slips -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_margin="8dp">
+
+                <Button
+                    android:id="@+id/btnPayslips"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:text="M"
+                    android:backgroundTint="@android:color/holo_blue_dark"
+                    android:textColor="@android:color/white"
+                    android:textSize="24sp"
+                    android:elevation="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monthly Pay Slips"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+
+            <!-- Button 2: Bonuses -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_margin="8dp">
+
+                <Button
+                    android:id="@+id/btnBonuses"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:text="B"
+                    android:backgroundTint="@android:color/holo_green_dark"
+                    android:textColor="@android:color/white"
+                    android:textSize="24sp"
+                    android:elevation="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bonuses"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+
+            <!-- Button 3: Compensation Breakdown -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_margin="8dp">
+
+                <Button
+                    android:id="@+id/btnCompensation"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:text="C"
+                    android:backgroundTint="@android:color/holo_orange_dark"
+                    android:textColor="@android:color/white"
+                    android:textSize="24sp"
+                    android:elevation="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Compensation"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+
+            <!-- Button 4: Tax Deductions -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_margin="8dp">
+
+                <Button
+                    android:id="@+id/btnTaxDeductions"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:text="T"
+                    android:backgroundTint="@android:color/holo_red_dark"
+                    android:textColor="@android:color/white"
+                    android:textSize="24sp"
+                    android:elevation="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tax Deductions"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+        </GridLayout>
+    </LinearLayout>
+</ScrollView>
