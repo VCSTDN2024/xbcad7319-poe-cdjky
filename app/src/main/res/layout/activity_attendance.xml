@@ -63,6 +63,7 @@
                 android:layout_height="wrap_content"
                 android:thumbTint="@android:color/holo_green_light"
                 android:trackTint="@android:color/white" />
+
         </LinearLayout>
 
         <!-- Buttons Section -->

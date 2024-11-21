@@ -1,8 +1,8 @@
 package com.example.workwise_prototype
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -10,50 +10,37 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class EnrollCourseActivity : AppCompatActivity() {
 
-    private lateinit var etCourseName: EditText
-    private lateinit var btnSubmitEnroll: Button
-    private lateinit var btnBack: Button
+    private lateinit var lvEnrolledCourses: ListView
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+    private val enrolledCourses = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enroll_course)
 
-        etCourseName = findViewById(R.id.etCourseName)
-        btnSubmitEnroll = findViewById(R.id.btnSubmitEnroll)
-        btnBack = findViewById(R.id.btnBack)
-
-        btnSubmitEnroll.setOnClickListener {
-            val courseName = etCourseName.text.toString().trim()
-            if (courseName.isNotEmpty()) {
-                enrollInCourse(courseName)
-            } else {
-                Toast.makeText(this, "Please enter a course name.", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        btnBack.setOnClickListener {
-            finish()
-        }
+        lvEnrolledCourses = findViewById(R.id.lvEnrolledCourses)
+        fetchEnrolledCourses()
     }
 
-    private fun enrollInCourse(courseName: String) {
-        val userId = auth.currentUser?.uid
-        if (userId != null) {
-            val enrollmentData = hashMapOf(
-                "userId" to userId,
-                "courseName" to courseName
-            )
-            db.collection("enrollments").add(enrollmentData)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Enrolled successfully in $courseName.", Toast.LENGTH_SHORT).show()
+    private fun fetchEnrolledCourses() {
+        val userId = auth.currentUser?.uid ?: return
+
+        db.collection("enrollments")
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { documents ->
+                enrolledCourses.clear()
+                for (document in documents) {
+                    val courseName = document.getString("course") ?: "Unknown Course"
+                    enrolledCourses.add(courseName)
                 }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Failed to enroll.", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
-        }
+
+                val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, enrolledCourses)
+                lvEnrolledCourses.adapter = adapter
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to fetch enrolled courses: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }

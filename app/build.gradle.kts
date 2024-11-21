@@ -59,6 +59,8 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation(libs.androidx.activity)
+    implementation ("com.google.firebase:firebase-firestore:24.7.1") // Replace with the latest version
+
 
 
     // Testing Libraries

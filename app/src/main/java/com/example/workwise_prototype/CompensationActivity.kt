@@ -31,14 +31,13 @@ class CompensationActivity : AppCompatActivity() {
     }
 
     private fun fetchAndDisplayCompensationData() {
-        db.collection("employees").get()
+        db.collection("actual_employees").get()
             .addOnSuccessListener { employeesSnapshot ->
                 val employeeData = mutableMapOf<String, String>()
 
-                // Collect employee data
                 for (document in employeesSnapshot.documents) {
                     val employeeId = document.id
-                    val employeeName = document.getString("name") ?: "Unknown"
+                    val employeeName = document.getString("FullName") ?: "Unknown"
                     employeeData[employeeId] = employeeName
                 }
 
@@ -46,11 +45,10 @@ class CompensationActivity : AppCompatActivity() {
                     .addOnSuccessListener { goalsSnapshot ->
                         val compensationData = mutableListOf<Triple<String, Double, Double>>()
 
-                        // Collect and calculate compensation data
                         for (document in goalsSnapshot.documents) {
-                            val employeeId = document.getString("user_id") ?: continue
+                            val employeeId = document.getString("actual_employee_id") ?: continue
                             val hoursWorked = document.getDouble("hours") ?: 0.0
-                            val compensation = hoursWorked * 300 // 300 per hour
+                            val compensation = hoursWorked * 200 // Assume R200/hour
 
                             if (employeeData.containsKey(employeeId)) {
                                 val employeeName = employeeData[employeeId] ?: "Unknown"
@@ -58,7 +56,6 @@ class CompensationActivity : AppCompatActivity() {
                             }
                         }
 
-                        // Populate the table
                         populateCompensationTable(compensationData)
                     }
                     .addOnFailureListener { e ->

@@ -1,33 +1,42 @@
 package com.example.workwise_prototype
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.FirebaseFirestore
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var tvWelcomeMessage: TextView
+    private lateinit var actualEmployeeId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // Initialize Firebase Auth and Firestore
-        auth = FirebaseAuth.getInstance()
+        // Initialize Firestore and SharedPreferences
         db = FirebaseFirestore.getInstance()
+        sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
+
+        // Fetch actual_employee_id from SharedPreferences
+        actualEmployeeId = sharedPreferences.getString("actual_employee_id", null) ?: ""
 
         // Initialize UI elements
         tvWelcomeMessage = findViewById(R.id.tvWelcomeMessage)
 
-        // Check user authentication and setup UI
-        checkUserAuthentication()
+        // Validate and fetch welcome message
+        if (actualEmployeeId.isNotEmpty()) {
+            fetchAndDisplayWelcomeMessage()
+        } else {
+            handleMissingEmployeeId()
+        }
 
         // Setup Bottom Navigation
         setupBottomNavigation()
@@ -36,25 +45,44 @@ class HomeActivity : AppCompatActivity() {
         setupFeatureButtons()
     }
 
-    private fun checkUserAuthentication() {
-        val userId = auth.currentUser?.uid
+    private fun fetchAndDisplayWelcomeMessage() {
+        val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
+        val actualEmployeeId = sharedPreferences.getString("actual_employee_id", null)
 
-        if (userId != null) {
-            // Fetch and display the user's name
-            db.collection("users").document(userId).get()
+        if (!actualEmployeeId.isNullOrEmpty()) {
+            db.collection("actual_employees").document(actualEmployeeId).get()
                 .addOnSuccessListener { document ->
-                    val employeeName = document.getString("name") ?: "User"
-                    tvWelcomeMessage.text = "Welcome, $employeeName!"
+                    if (document.exists()) {
+                        val fullName = document.getString("FullName") ?: "Employee"
+                        tvWelcomeMessage.text = "Welcome, $fullName!"
+                    } else {
+                        tvWelcomeMessage.text = "Welcome, Employee!"
+                    }
                 }
-                .addOnFailureListener {
-                    tvWelcomeMessage.text = "Welcome!"
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Failed to fetch details: ${e.message}", Toast.LENGTH_SHORT).show()
+                    tvWelcomeMessage.text = "Welcome, Employee!"
                 }
         } else {
-            // Redirect to LoginActivity if the user is not authenticated
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish() // End current activity
+            tvWelcomeMessage.text = "Welcome, Employee!"
         }
+    }
+
+
+    private fun handleMissingEmployeeId() {
+        Toast.makeText(this, "User not authenticated. Redirecting to login...", Toast.LENGTH_SHORT).show()
+        redirectToLogin()
+    }
+
+    private fun handleMissingEmployeeRecord() {
+        Toast.makeText(this, "Employee record not found in the database.", Toast.LENGTH_SHORT).show()
+        tvWelcomeMessage.text = "Welcome, Employee!"
+    }
+
+    private fun redirectToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun setupBottomNavigation() {
@@ -105,11 +133,5 @@ class HomeActivity : AppCompatActivity() {
         findViewById<LinearLayout>(R.id.training).setOnClickListener {
             startActivity(Intent(this, CourseMenuActivity::class.java))
         }
-
-
-        // Leave Management
-        //findViewById<LinearLayout>(R.id.leaveManagement).setOnClickListener {
-        //    startActivity(Intent(this, LeaveManagementActivity::class.java))
-        //}
     }
 }

@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">WorkWise_Prototype</string>
+    <string-array name="roles">
+        <item>Junior</item>
+        <item>Senior</item>
+        <item>Executive</item>
+    </string-array>
+
+    <string-array name="departments">
+        <item>IT</item>
+        <item>HR</item>
+        <item>Marketing</item>
+        <item>Finance</item>
+        <item>Sales</item>
+    </string-array>
+
+    <string-array name="role_options">
+        <item>Junior</item>
+        <item>Senior</item>
+        <item>Executive</item>
+    </string-array>
+
+    <string-array name="department_options">
+        <item>IT</item>
+        <item>HR</item>
+        <item>Marketing</item>
+        <item>Finance</item>
+        <item>Sales</item>
+    </string-array>
+
 </resources>

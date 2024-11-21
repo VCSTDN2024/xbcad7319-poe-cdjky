@@ -1,51 +1,20 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@android:color/white">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvEnrollCourses"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="Enrolled Courses"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
 
-        <!-- Title -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enroll in a Course"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"
-            android:textColor="@android:color/black" />
-
-        <!-- Course Name -->
-        <EditText
-            android:id="@+id/etCourseName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Course Name"
-            android:background="@android:color/darker_gray"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Submit Button -->
-        <Button
-            android:id="@+id/btnSubmitEnroll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enroll"
-            android:backgroundTint="@android:color/holo_green_light"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Back Button -->
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:backgroundTint="@android:color/holo_blue_dark"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
-</ScrollView>
+    <ListView
+        android:id="@+id/lvEnrolledCourses"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

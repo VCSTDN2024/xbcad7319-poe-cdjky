@@ -38,36 +38,41 @@
         <!-- Attendance -->
         <activity android:name=".AttendanceActivity" android:exported="false" />
 
-
         <!-- Payroll -->
         <activity android:name=".PayrollActivity" android:parentActivityName=".HomeActivity"
-                    android:exported="false" />
+            android:exported="false" />
         <activity android:name=".PayslipsActivity" android:parentActivityName=".PayrollActivity"
-                    android:exported="false" />
+            android:exported="false" />
         <activity android:name=".BonusesActivity" android:parentActivityName=".PayrollActivity"
-                    android:exported="false" />
+            android:exported="false" />
         <activity android:name=".CompensationActivity" android:parentActivityName=".PayrollActivity"
-                    android:exported="false" />
+            android:exported="false" />
         <activity android:name=".TaxDeductionsActivity" android:parentActivityName=".PayrollActivity"
-                    android:exported="false" />
+            android:exported="false" />
 
         <!-- Performance Management -->
         <activity android:name=".PerformanceManagementActivity" android:parentActivityName=".HomeActivity"
-                    android:exported="false" />
+            android:exported="false" />
         <activity android:name=".PerformanceActivity" android:parentActivityName=".PerformanceManagementActivity"
-                    android:exported="false" />
+            android:exported="false" />
         <activity android:name=".PerformanceDataActivity" android:parentActivityName=".PerformanceManagementActivity"
-                    android:exported="false" />
+            android:exported="false" />
         <activity android:name=".FeedbackSubmissionActivity" android:parentActivityName=".PerformanceManagementActivity"
-                    android:exported="false" />
+            android:exported="false" />
         <activity android:name=".PersonalPerformanceActivity" android:parentActivityName=".PerformanceManagementActivity"
-                    android:exported="false" />
+            android:exported="false" />
 
         <!-- Leave Request Form -->
         <activity android:name=".LeaveRequestFormActivity" android:exported="false" />
 
-        <!-- Training -->
+        <!-- Training/Course Menu -->
         <activity android:name=".CourseMenuActivity" android:parentActivityName=".HomeActivity"
+            android:exported="false" />
+        <activity android:name=".ViewCourseActivity" android:parentActivityName=".CourseMenuActivity"
+            android:exported="false" />
+        <activity android:name=".EnrollCourseActivity" android:parentActivityName=".CourseMenuActivity"
+            android:exported="false" />
+        <activity android:name=".CourseDetailsActivity" android:parentActivityName=".ViewCourseActivity"
             android:exported="false" />
 
         <!-- Notifications -->

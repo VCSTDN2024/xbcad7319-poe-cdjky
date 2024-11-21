@@ -4,129 +4,156 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 
 class EmployeeRecordsActivity : AppCompatActivity() {
 
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
+    private lateinit var loggedInEmployeeId: String
+
+    private lateinit var tvWelcomeEmployee: TextView
     private lateinit var etEmployeeName: EditText
-    private lateinit var etEmployeePronouns: EditText
-    private lateinit var etEmployeeRole: EditText
-    private lateinit var etEmployeeReportingTo: EditText
+    private lateinit var spinnerRole: Spinner
+    private lateinit var spinnerDepartment: Spinner
     private lateinit var etEmployeePhone: EditText
     private lateinit var etEmployeeEmail: EditText
     private lateinit var btnSaveEmployee: Button
-    private lateinit var etSearchEmployee: EditText
     private lateinit var lvEmployeeResults: ListView
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var db: FirebaseFirestore
+    private val employeeList = mutableListOf<String>()
+    private val employeeIds = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_employee_records)
 
-        // Initialize Firebase Auth and Firestore
+        // Initialize Firebase
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-        // Initialize views
+        // Retrieve logged-in actual_employee_id
+        val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
+        loggedInEmployeeId = sharedPreferences.getString("actual_employee_id", null) ?: ""
+
+        // Initialize UI components
+        tvWelcomeEmployee = findViewById(R.id.tvWelcomeEmployee)
         etEmployeeName = findViewById(R.id.etEmployeeName)
-        etEmployeePronouns = findViewById(R.id.etEmployeePronouns)
-        etEmployeeRole = findViewById(R.id.etEmployeeRole)
-        etEmployeeReportingTo = findViewById(R.id.etEmployeeReportingTo)
+        spinnerRole = findViewById(R.id.spinnerRole)
+        spinnerDepartment = findViewById(R.id.spinnerDepartment)
         etEmployeePhone = findViewById(R.id.etEmployeePhone)
         etEmployeeEmail = findViewById(R.id.etEmployeeEmail)
         btnSaveEmployee = findViewById(R.id.btnSaveEmployee)
-        etSearchEmployee = findViewById(R.id.etSearchEmployee)
         lvEmployeeResults = findViewById(R.id.lvEmployeeResults)
 
-        // Fetch current user details if already saved
-        val userId = auth.currentUser?.uid
-        if (userId != null) {
-            fetchEmployeeDetails(userId)
-        }
+        // Setup spinners
+        setupRoleSpinner()
+        setupDepartmentSpinner()
 
-        // Save Employee details
+        // Fetch logged-in employee details
+        fetchLoggedInEmployeeDetails()
+
+        // Load list of employees
+        loadEmployeeList()
+
+        // Save updated employee details
         btnSaveEmployee.setOnClickListener {
-            saveEmployeeDetails(userId)
+            saveEmployeeDetails()
         }
 
-        // Search employees
-        etSearchEmployee.addTextChangedListener {
-            searchEmployees(it.toString())
-        }
-    }
-
-    private fun fetchEmployeeDetails(userId: String?) {
-        if (userId == null) return
-
-        db.collection("employees").document(userId).get().addOnSuccessListener { document ->
-            if (document != null) {
-                etEmployeeName.setText(document.getString("name"))
-                etEmployeePronouns.setText(document.getString("pronouns"))
-                etEmployeeRole.setText(document.getString("job_role"))
-                etEmployeeReportingTo.setText(document.getString("reporting_to"))
-                etEmployeePhone.setText(document.getString("phone"))
-                etEmployeeEmail.setText(document.getString("email"))
-            }
+        // Handle employee selection
+        lvEmployeeResults.setOnItemClickListener { _, _, position, _ ->
+            val selectedEmployeeId = employeeIds[position]
+            val intent = Intent(this, EmployeeDetailsActivity::class.java)
+            intent.putExtra("selected_employee_id", selectedEmployeeId)
+            startActivity(intent)
         }
     }
 
-    private fun saveEmployeeDetails(userId: String?) {
-        if (userId == null) return
+    private fun setupRoleSpinner() {
+        val roles = resources.getStringArray(R.array.role_options)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, roles)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerRole.adapter = adapter
+    }
 
-        val employeeData = hashMapOf(
-            "name" to etEmployeeName.text.toString(),
-            "pronouns" to etEmployeePronouns.text.toString(),
-            "job_role" to etEmployeeRole.text.toString(),
-            "reporting_to" to etEmployeeReportingTo.text.toString(),
-            "phone" to etEmployeePhone.text.toString(),
-            "email" to etEmployeeEmail.text.toString()
-        )
+    private fun setupDepartmentSpinner() {
+        val departments = resources.getStringArray(R.array.department_options)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, departments)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerDepartment.adapter = adapter
+    }
 
-        db.collection("employees").document(userId)
-            .set(employeeData)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Employee details saved", Toast.LENGTH_SHORT).show()
+    private fun fetchLoggedInEmployeeDetails() {
+        if (loggedInEmployeeId.isEmpty()) {
+            Toast.makeText(this, "Error: Employee ID is missing.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        db.collection("actual_employees").document(loggedInEmployeeId).get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    tvWelcomeEmployee.text = "Welcome, ${document.getString("FullName") ?: "Employee"}!"
+                    etEmployeeName.setText(document.getString("FullName"))
+                    etEmployeePhone.setText(document.getString("Phone"))
+                    etEmployeeEmail.setText(document.getString("Email"))
+
+                    val role = document.getString("Role") ?: "Junior"
+                    spinnerRole.setSelection((spinnerRole.adapter as ArrayAdapter<String>).getPosition(role))
+
+                    val department = document.getString("Department") ?: "IT"
+                    spinnerDepartment.setSelection((spinnerDepartment.adapter as ArrayAdapter<String>).getPosition(department))
+                } else {
+                    Toast.makeText(this, "No details found for logged-in employee.", Toast.LENGTH_SHORT).show()
+                }
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Failed to save details", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed to fetch logged-in employee details.", Toast.LENGTH_SHORT).show()
             }
     }
 
-    private fun searchEmployees(query: String) {
-        db.collection("employees")
-            .get() // Fetch all employees
+    private fun loadEmployeeList() {
+        db.collection("actual_employees").get()
             .addOnSuccessListener { documents ->
-                val employeeList = mutableListOf<Pair<String, String>>() // Pair of (employee name, employee ID)
-
+                employeeList.clear()
+                employeeIds.clear()
                 for (document in documents) {
-                    val name = document.getString("name")
-                    val id = document.id // Get employee ID
-                    if (name != null && id != null) {
-                        // Filter names that contain the query, ignoring case
-                        if (name.contains(query, ignoreCase = true)) {
-                            employeeList.add(Pair(name, id))
-                        }
-                    }
+                    val fullName = document.getString("FullName") ?: "Unnamed Employee"
+                    val employeeId = document.id
+                    employeeList.add(fullName)
+                    employeeIds.add(employeeId)
                 }
-
-                // Extract just the names for display
-                val employeeNames = employeeList.map { it.first }
-                val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, employeeNames)
+                val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, employeeList)
                 lvEmployeeResults.adapter = adapter
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to load employee list.", Toast.LENGTH_SHORT).show()
+            }
+    }
 
-                // Handle list item clicks
-                lvEmployeeResults.setOnItemClickListener { _, _, position, _ ->
-                    val selectedEmployee = employeeList[position]
-                    val employeeId = selectedEmployee.second // Get the employee ID
-                    // Start EmployeeDetailsActivity and pass the employee ID
-                    val intent = Intent(this, EmployeeDetailsActivity::class.java)
-                    intent.putExtra("employeeId", employeeId)
-                    startActivity(intent)
-                }
+    private fun saveEmployeeDetails() {
+        if (loggedInEmployeeId.isEmpty()) {
+            Toast.makeText(this, "Error: Employee ID is missing.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val updatedDetails = hashMapOf(
+            "FullName" to etEmployeeName.text.toString().trim(),
+            "Role" to spinnerRole.selectedItem.toString(),
+            "Department" to spinnerDepartment.selectedItem.toString(),
+            "Phone" to etEmployeePhone.text.toString().trim(),
+            "Email" to etEmployeeEmail.text.toString().trim()
+        )
+
+        db.collection("actual_employees").document(loggedInEmployeeId)
+            .set(updatedDetails, SetOptions.merge()) // Use merge to update fields without overwriting the document
+            .addOnSuccessListener {
+                Toast.makeText(this, "Employee details updated successfully.", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to update employee details: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 }

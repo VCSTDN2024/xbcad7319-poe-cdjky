@@ -28,7 +28,7 @@
         <!-- Header Section -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="84dp"
+            android:layout_height="123dp"
             android:background="@android:color/holo_blue_light"
             android:elevation="4dp"
             android:orientation="vertical"
@@ -42,6 +42,16 @@
                 android:textColor="@android:color/white"
                 android:textSize="22sp"
                 android:textStyle="bold" />
+
+            <!-- Welcome Message -->
+            <TextView
+                android:id="@+id/tvWelcomeMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:text="Welcome, Employee!"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <!-- Button Section -->

@@ -20,6 +20,7 @@ class PerformanceActivity : AppCompatActivity() {
     private lateinit var goalStartDate: EditText
     private lateinit var goalEndDate: EditText
     private lateinit var goalHours: EditText
+    private lateinit var loggedInEmployeeId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +29,10 @@ class PerformanceActivity : AppCompatActivity() {
         // Initialize Firebase and UI components
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+
+        // Get logged-in employee ID
+        val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
+        loggedInEmployeeId = sharedPreferences.getString("actual_employee_id", null) ?: ""
 
         tvEmployeeName = findViewById(R.id.employee_name)
         tvJobRole = findViewById(R.id.job_role)
@@ -58,46 +63,41 @@ class PerformanceActivity : AppCompatActivity() {
     }
 
     private fun fetchAndDisplayUserDetails() {
-        val userId = auth.currentUser?.uid
-        if (userId != null) {
-            db.collection("users").document(userId).get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        val userName = document.getString("name") ?: "Unknown User"
-                        val jobRole = document.getString("role") ?: "N/A"
+        db.collection("actual_employees").document(loggedInEmployeeId).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val fullName = document.getString("FullName") ?: "Unknown User"
+                    val jobRole = document.getString("Role") ?: "N/A"
 
-                        tvEmployeeName.text = userName
-                        tvJobRole.text = jobRole
-                    }
+                    tvEmployeeName.text = fullName
+                    tvJobRole.text = jobRole
                 }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Failed to fetch user details.", Toast.LENGTH_SHORT).show()
-                }
-        }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to fetch user details.", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun saveGoal() {
         val description = goalDescription.text.toString().trim()
         val startDate = goalStartDate.text.toString().trim()
         val endDate = goalEndDate.text.toString().trim()
-        val hours = goalHours.text.toString().trim()
+        val hours = goalHours.text.toString().trim().toDoubleOrNull()
 
-        if (description.isNotEmpty() && startDate.isNotEmpty() && endDate.isNotEmpty() && hours.isNotEmpty()) {
-            val userId = auth.currentUser?.uid ?: return
-
+        if (description.isNotEmpty() && startDate.isNotEmpty() && endDate.isNotEmpty() && hours != null) {
             val goalData = hashMapOf(
-                "user_id" to userId,
+                "actual_employee_id" to loggedInEmployeeId,
                 "description" to description,
                 "start_date" to startDate,
                 "end_date" to endDate,
-                "hours" to hours.toDoubleOrNull(),
+                "hours" to hours,
                 "status" to "In Progress"
             )
 
-            db.collection("goals").add(goalData) // Save to "goals" collection
+            db.collection("goals").add(goalData)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Goal saved successfully.", Toast.LENGTH_SHORT).show()
-                    clearInputFields() // Clear inputs after saving
+                    clearInputFields()
                     loadGoals()
                 }
                 .addOnFailureListener { e ->
@@ -109,10 +109,8 @@ class PerformanceActivity : AppCompatActivity() {
     }
 
     private fun loadGoals() {
-        val userId = auth.currentUser?.uid ?: return
-
         db.collection("goals")
-            .whereEqualTo("user_id", userId) // Filter by logged-in user's goals
+            .whereEqualTo("actual_employee_id", loggedInEmployeeId)
             .get()
             .addOnSuccessListener { documents ->
                 val goalList = ArrayList<String>()
@@ -122,8 +120,6 @@ class PerformanceActivity : AppCompatActivity() {
                     val status = document.getString("status") ?: "No Status"
                     goalList.add("$description (Hours: $hours, Status: $status)")
                 }
-
-
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed to load goals.", Toast.LENGTH_SHORT).show()
