@@ -1,52 +1,69 @@
 package com.example.workwise_prototype
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ViewCourseActivity : AppCompatActivity() {
 
-    private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
+    private lateinit var db: FirebaseFirestore
+    private lateinit var lvCourses: ListView
+    private val courseTitles = mutableListOf<String>()
+    private val courseDescriptions = mutableListOf<String>()
+    private val courseIds = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_course)
 
-        // Set up buttons for each course
-        setupEnrollButton(findViewById(R.id.btnCourse1), "Leadership and Management Training")
-        setupEnrollButton(findViewById(R.id.btnCourse2), "Technical Skills: Data Analysis")
-        setupEnrollButton(findViewById(R.id.btnCourse3), "Soft Skills: Communication Workshop")
-        setupEnrollButton(findViewById(R.id.btnCourse4), "Advanced Technical Writing")
-        setupEnrollButton(findViewById(R.id.btnCourse5), "Intermediate Job Training")
-        setupEnrollButton(findViewById(R.id.btnCourse6), "Front-end Development")
-        setupEnrollButton(findViewById(R.id.btnCourse7), "Back-end Development")
-        setupEnrollButton(findViewById(R.id.btnCourse8), "Leadership Team Training")
+        // Initialize Firestore and UI components
+        db = FirebaseFirestore.getInstance()
+        lvCourses = findViewById(R.id.lvCourses)
+
+        // Fetch and display courses
+        fetchCourses()
     }
 
-    private fun setupEnrollButton(button: Button, courseName: String) {
-        button.setOnClickListener {
-            val userId = auth.currentUser?.uid
-            if (userId != null) {
-                val enrollmentData = hashMapOf(
-                    "userId" to userId,
-                    "courseName" to courseName,
-                    "status" to "Enrolled"
-                )
-                db.collection("enrollments")
-                    .add(enrollmentData)
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Successfully enrolled in $courseName", Toast.LENGTH_SHORT).show()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, "Enrollment failed: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
-            } else {
-                Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+    private fun fetchCourses() {
+        db.collection("ActualCourses").get()
+            .addOnSuccessListener { documents ->
+                courseTitles.clear()
+                courseDescriptions.clear()
+                courseIds.clear()
+
+                for (document in documents) {
+                    val title = document.getString("title") ?: "Unnamed Course"
+                    val description = document.getString("description") ?: "No description provided"
+                    val courseId = document.id
+
+                    courseTitles.add(title)
+                    courseDescriptions.add(description)
+                    courseIds.add(courseId)
+                }
+
+                val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, courseTitles)
+                lvCourses.adapter = adapter
+
+                lvCourses.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+                    val selectedCourseId = courseIds[position]
+                    val selectedTitle = courseTitles[position]
+                    val selectedDescription = courseDescriptions[position]
+
+                    // Navigate to CourseDetailsActivity with the selected course details
+                    val intent = Intent(this, CourseDetailsActivity::class.java)
+                    intent.putExtra("courseId", selectedCourseId)
+                    intent.putExtra("courseTitle", selectedTitle)
+                    intent.putExtra("courseDescription", selectedDescription)
+                    startActivity(intent)
+                }
             }
-        }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to fetch courses: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }

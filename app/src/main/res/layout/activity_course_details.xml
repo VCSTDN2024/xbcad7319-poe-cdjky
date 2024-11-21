@@ -1,70 +1,42 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tvCourseTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="Course Title"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
 
-        <!-- Header Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@android:color/holo_blue_dark"
-            android:padding="16dp"
-            android:elevation="4dp">
+    <TextView
+        android:id="@+id/tvCourseDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Course Description"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
 
-            <TextView
-                android:id="@+id/tvCourseTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Course Details"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:layout_marginBottom="8dp" />
+    <!-- Watch Video Button -->
+    <Button
+        android:id="@+id/btnWatchVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Watch Video"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="16dp" />
 
-            <TextView
-                android:id="@+id/tvCourseName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Course Name"
-                android:textSize="18sp"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-        <!-- Course Description -->
-        <TextView
-            android:id="@+id/tvCourseDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Description"
-            android:textSize="16sp"
-            android:layout_marginTop="16dp"
-            android:textColor="@android:color/black" />
-
-        <!-- Course Details -->
-        <TextView
-            android:id="@+id/tvCourseDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Details about the course..."
-            android:textSize="14sp"
-            android:layout_marginTop="8dp"
-            android:textColor="@android:color/darker_gray" />
-
-        <!-- Enroll Button -->
-        <Button
-            android:id="@+id/btnEnroll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enroll Now"
-            android:backgroundTint="@android:color/holo_green_light"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="16dp" />
-    </LinearLayout>
-</ScrollView>
+    <!-- Enroll Button -->
+    <Button
+        android:id="@+id/btnEnroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enroll"
+        android:backgroundTint="@android:color/holo_green_dark"
+        android:textColor="@android:color/white" />
+</LinearLayout>

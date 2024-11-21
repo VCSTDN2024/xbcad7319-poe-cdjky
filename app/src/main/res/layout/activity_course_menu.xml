@@ -22,7 +22,7 @@
                 android:id="@+id/tvCourseMenuTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Course Management Menu"
+                android:text="Welcome, [Employee Name]!"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white" />
@@ -41,8 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="24dp"
-            android:spacing="16dp">
+            android:layout_marginTop="24dp">
 
             <!-- View Courses -->
             <LinearLayout

@@ -18,6 +18,7 @@ class CourseMenuActivity : AppCompatActivity() {
     private lateinit var btnEnrollCoursesContainer: LinearLayout
     private lateinit var btnViewProgressContainer: LinearLayout
     private lateinit var btnNotificationsContainer: LinearLayout
+    private lateinit var loggedInEmployeeId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +28,10 @@ class CourseMenuActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
+        // Retrieve logged-in actual_employee_id from SharedPreferences
+        val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
+        loggedInEmployeeId = sharedPreferences.getString("actual_employee_id", null) ?: ""
+
         // Initialize UI components
         tvCourseMenuTitle = findViewById(R.id.tvCourseMenuTitle)
         btnViewCoursesContainer = findViewById(R.id.btnViewCoursesContainer)
@@ -34,8 +39,8 @@ class CourseMenuActivity : AppCompatActivity() {
         btnViewProgressContainer = findViewById(R.id.btnViewProgressContainer)
         btnNotificationsContainer = findViewById(R.id.btnNotificationsContainer)
 
-        // Fetch and display the user name
-        fetchUserName()
+        // Fetch and display the logged-in employee's name
+        fetchEmployeeName()
 
         // Set up button click listeners
         btnViewCoursesContainer.setOnClickListener {
@@ -55,20 +60,19 @@ class CourseMenuActivity : AppCompatActivity() {
         }
     }
 
-    private fun fetchUserName() {
-        val userId = auth.currentUser?.uid
-        if (userId != null) {
-            db.collection("users").document(userId).get()
+    private fun fetchEmployeeName() {
+        if (loggedInEmployeeId.isNotEmpty()) {
+            db.collection("actual_employees").document(loggedInEmployeeId).get()
                 .addOnSuccessListener { document ->
-                    if (document != null) {
-                        val userName = document.getString("name") ?: "User"
-                        tvCourseMenuTitle.text = "Welcome, $userName!"
+                    if (document != null && document.exists()) {
+                        val fullName = document.getString("FullName") ?: "User"
+                        tvCourseMenuTitle.text = "Welcome, $fullName!"
                     } else {
                         tvCourseMenuTitle.text = "Welcome, User!"
                     }
                 }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Failed to fetch user details.", Toast.LENGTH_SHORT).show()
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Failed to fetch user details: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         } else {
             tvCourseMenuTitle.text = "Welcome, User!"

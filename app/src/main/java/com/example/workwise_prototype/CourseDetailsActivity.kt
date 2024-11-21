@@ -1,5 +1,7 @@
 package com.example.workwise_prototype
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -9,69 +11,106 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class CourseDetailsActivity : AppCompatActivity() {
 
-    private lateinit var tvCourseName: TextView
+    private lateinit var db: FirebaseFirestore
+    private lateinit var tvCourseTitle: TextView
     private lateinit var tvCourseDescription: TextView
-    private lateinit var tvCourseDetails: TextView
+    private lateinit var btnWatchVideo: Button
     private lateinit var btnEnroll: Button
 
-    private val db = FirebaseFirestore.getInstance()
+    private var courseId: String? = null
+    private var courseTitle: String? = null
+    private var courseDescription: String? = null
+    private var videoLink: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_details)
 
-        // Initialize UI elements
-        tvCourseName = findViewById(R.id.tvCourseName)
+        // Initialize Firestore and UI components
+        db = FirebaseFirestore.getInstance()
+        tvCourseTitle = findViewById(R.id.tvCourseTitle)
         tvCourseDescription = findViewById(R.id.tvCourseDescription)
-        tvCourseDetails = findViewById(R.id.tvCourseDetails)
+        btnWatchVideo = findViewById(R.id.btnWatchVideo)
         btnEnroll = findViewById(R.id.btnEnroll)
 
-        // Get the course name from intent
-        val courseName = intent.getStringExtra("COURSE_NAME") ?: "Unknown Course"
-        tvCourseName.text = courseName
+        // Retrieve course details passed from  the ViewCourseActivity
+        courseId = intent.getStringExtra("courseId")
+        courseTitle = intent.getStringExtra("courseTitle")
+        courseDescription = intent.getStringExtra("courseDescription")
+        videoLink = intent.getStringExtra("videoLink")
 
-        // Fetch course details from Firebase
-        fetchCourseDetails(courseName)
+        // Populate UI with course details
+        populateCourseDetails()
 
-        // Handle enroll button click
+        // Set up click listener for video link
+        btnWatchVideo.setOnClickListener {
+            videoLink?.let { openVideoLink(it) }
+        }
+
+        // Set up click listener for enroll button
         btnEnroll.setOnClickListener {
-            enrollInCourse(courseName)
+            enrollInCourse()
         }
     }
 
-    private fun fetchCourseDetails(courseName: String) {
-        db.collection("courses").whereEqualTo("name", courseName).get()
-            .addOnSuccessListener { documents ->
-                if (documents.isEmpty) {
-                    Toast.makeText(this, "Course details not found.", Toast.LENGTH_SHORT).show()
-                } else {
-                    for (document in documents) {
-                        val description = document.getString("description") ?: "No description available."
-                        val details = document.getString("details") ?: "No additional details."
+    private fun populateCourseDetails() {
+        tvCourseTitle.text = courseTitle ?: "No Title Available"
+        tvCourseDescription.text = courseDescription ?: "No Description Available"
+        btnWatchVideo.isEnabled = !videoLink.isNullOrEmpty()
+    }
 
-                        tvCourseDescription.text = description
-                        tvCourseDetails.text = details
+    private fun enrollInCourse() {
+        val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
+        val loggedInEmployeeId = sharedPreferences.getString("actual_employee_id", null)
+
+        if (loggedInEmployeeId == null || courseId == null) {
+            Toast.makeText(this, "Failed to enroll. Please try again.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Fetch Employee FullName
+        db.collection("actual_employees").document(loggedInEmployeeId).get()
+            .addOnSuccessListener { employeeDocument ->
+                val fullName = employeeDocument.getString("FullName") ?: "Unknown Employee"
+
+                // Fetch Course Title
+                db.collection("ActualCourses").document(courseId!!).get()
+                    .addOnSuccessListener { courseDocument ->
+                        val courseTitle = courseDocument.getString("title") ?: "Unnamed Course"
+
+                        // Prepare Enrollment Data
+                        val enrollmentData = hashMapOf(
+                            "courseId" to courseId,
+                            "title" to courseTitle,
+                            "actual_employee_id" to loggedInEmployeeId,
+                            "FullName" to fullName
+                        )
+
+                        // Save to CourseEnrollments Collection
+                        db.collection("CourseEnrollments").add(enrollmentData)
+                            .addOnSuccessListener {
+                                Toast.makeText(
+                                    this,
+                                    "Successfully enrolled in $courseTitle!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                finish()
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(this, "Failed to enroll: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
                     }
-                }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Failed to fetch course details: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "Failed to fetch course details: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed to fetch employee details: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 
-    private fun enrollInCourse(courseName: String) {
-        val userId = "CURRENT_USER_ID" // Replace with actual user ID logic
-        val enrollmentData = hashMapOf(
-            "userId" to userId,
-            "course" to courseName
-        )
-
-        db.collection("enrollments").add(enrollmentData)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Successfully enrolled in $courseName!", Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Enrollment failed: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+    private fun openVideoLink(link: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+        startActivity(intent)
     }
 }
