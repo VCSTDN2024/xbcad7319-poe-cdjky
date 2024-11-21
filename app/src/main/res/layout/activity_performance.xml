@@ -116,7 +116,7 @@
             android:id="@+id/goalHours"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter hours worked (e.g., 4)"
+            android:hint="I aim to work these hours (e.g., 4)"
             android:inputType="numberDecimal"
             android:background="@android:color/darker_gray"
             android:padding="12dp"

@@ -11,12 +11,12 @@ class PerformanceDataActivity : AppCompatActivity() {
 
     private lateinit var btnBack: Button
     private lateinit var btnSubmit: Button
-    private lateinit var employeeName: EditText
     private lateinit var month: EditText
     private lateinit var year: EditText
     private lateinit var performanceReview: EditText
 
     private val firestore = FirebaseFirestore.getInstance()
+    private lateinit var loggedInEmployeeId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +25,13 @@ class PerformanceDataActivity : AppCompatActivity() {
         // Initialize views
         btnBack = findViewById(R.id.btnBack)
         btnSubmit = findViewById(R.id.btnSubmit)
-        employeeName = findViewById(R.id.employeeName)
         month = findViewById(R.id.month)
         year = findViewById(R.id.year)
         performanceReview = findViewById(R.id.performanceReview)
+
+        // Retrieve logged-in employee ID
+        val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
+        loggedInEmployeeId = sharedPreferences.getString("actual_employee_id", null) ?: ""
 
         // Back button functionality
         btnBack.setOnClickListener {
@@ -37,22 +40,21 @@ class PerformanceDataActivity : AppCompatActivity() {
 
         // Submit button functionality
         btnSubmit.setOnClickListener {
-            val name = employeeName.text.toString()
             val monthText = month.text.toString()
             val yearText = year.text.toString()
             val review = performanceReview.text.toString()
 
-            if (name.isNotEmpty() && monthText.isNotEmpty() && yearText.isNotEmpty() && review.isNotEmpty()) {
-                savePerformanceData(name, monthText, yearText, review)
+            if (monthText.isNotEmpty() && yearText.isNotEmpty() && review.isNotEmpty()) {
+                savePerformanceData(monthText, yearText, review)
             } else {
                 Toast.makeText(this, "Please fill out all fields", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun savePerformanceData(name: String, month: String, year: String, review: String) {
+    private fun savePerformanceData(month: String, year: String, review: String) {
         val performanceData = hashMapOf(
-            "employeeName" to name,
+            "employeeId" to loggedInEmployeeId,
             "month" to month,
             "year" to year,
             "review" to review
@@ -69,7 +71,6 @@ class PerformanceDataActivity : AppCompatActivity() {
     }
 
     private fun clearFields() {
-        employeeName.text.clear()
         month.text.clear()
         year.text.clear()
         performanceReview.text.clear()

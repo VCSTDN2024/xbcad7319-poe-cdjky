@@ -17,27 +17,33 @@ class PayrollActivity : AppCompatActivity() {
     private lateinit var btnPayslips: Button
     private lateinit var btnBonuses: Button
     private lateinit var btnCompensation: Button
-    private lateinit var btnTaxDeductions: Button
+    private lateinit var btnHoursWorked: Button
+
+    private var actualEmployeeId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payroll)
 
-        // Initialize Firebase Auth and Firestore
+        // Initialize Firebase instances
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+
+        // Retrieve actual_employee_id from SharedPreferences
+        val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
+        actualEmployeeId = sharedPreferences.getString("actual_employee_id", null)
 
         // Initialize UI components
         tvPayrollUserName = findViewById(R.id.tvPayrollUserName)
         btnPayslips = findViewById(R.id.btnPayslips)
         btnBonuses = findViewById(R.id.btnBonuses)
         btnCompensation = findViewById(R.id.btnCompensation)
-        btnTaxDeductions = findViewById(R.id.btnTaxDeductions)
+        btnHoursWorked = findViewById(R.id.btnHoursWorked)
 
-        // Fetch and display user name
-        fetchAndDisplayUserName()
+        // Fetch and display employee name
+        fetchAndDisplayEmployeeName()
 
-        // Button click listeners
+        // Set up button functionality
         btnPayslips.setOnClickListener {
             startActivity(Intent(this, PayslipsActivity::class.java))
         }
@@ -50,35 +56,29 @@ class PayrollActivity : AppCompatActivity() {
             startActivity(Intent(this, CompensationActivity::class.java))
         }
 
-        btnTaxDeductions.setOnClickListener {
-            startActivity(Intent(this, TaxDeductionsActivity::class.java))
+        btnHoursWorked.setOnClickListener {
+            startActivity(Intent(this, HoursWorkedActivity::class.java))
         }
-
-        // Handle Back Button
-        findViewById<Button>(R.id.btnBack).setOnClickListener {
-            onBackPressed()
-        }
-
     }
 
-    private fun fetchAndDisplayUserName() {
-        val userId = auth.currentUser?.uid
-
-        if (userId != null) {
-            db.collection("users").document(userId).get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        val userName = document.getString("name") ?: "Unknown User"
-                        tvPayrollUserName.text = "Welcome, $userName"
-                    } else {
-                        Toast.makeText(this, "No user details found.", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Failed to fetch user details.", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            tvPayrollUserName.text = "Welcome, Guest"
+    private fun fetchAndDisplayEmployeeName() {
+        if (actualEmployeeId == null) {
+            tvPayrollUserName.text = "Welcome, Employee!"
+            return
         }
+
+        db.collection("actual_employees").document(actualEmployeeId!!).get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    val fullName = document.getString("FullName") ?: "Employee"
+                    tvPayrollUserName.text = "Welcome, $fullName!"
+                } else {
+                    tvPayrollUserName.text = "Welcome, Employee!"
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to fetch employee details: ${e.message}", Toast.LENGTH_SHORT).show()
+                tvPayrollUserName.text = "Welcome, Employee!"
+            }
     }
 }

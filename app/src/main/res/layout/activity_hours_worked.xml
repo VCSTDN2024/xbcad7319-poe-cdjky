@@ -1,0 +1,79 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Header Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/holo_blue_light"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hours Worked"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:gravity="center_horizontal" />
+        </LinearLayout>
+
+        <!-- Monthly Hours Input -->
+        <EditText
+            android:id="@+id/etMonthlyHours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Monthly Hours"
+            android:inputType="numberDecimal"
+            android:layout_marginTop="24dp"
+            android:padding="12dp"
+            android:background="@android:color/darker_gray"
+            android:textColor="@android:color/black" />
+
+        <!-- Overtime Hours Input -->
+        <EditText
+            android:id="@+id/etOvertimeHours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Overtime Hours (Optional)"
+            android:inputType="numberDecimal"
+            android:layout_marginTop="16dp"
+            android:padding="12dp"
+            android:background="@android:color/darker_gray"
+            android:textColor="@android:color/black" />
+
+        <!-- Submit Hours Button -->
+        <Button
+            android:id="@+id/btnSubmitHours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Hours"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:padding="12dp" />
+
+        <!-- Back Button -->
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@android:color/holo_blue_light"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:padding="12dp" />
+    </LinearLayout>
+</ScrollView>

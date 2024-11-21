@@ -8,7 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
-import java.text.SimpleDateFormat
+import com.google.firebase.Timestamp
 import java.util.*
 
 class AttendanceActivity : AppCompatActivity() {
@@ -57,16 +57,16 @@ class AttendanceActivity : AppCompatActivity() {
                 return@setOnCheckedChangeListener
             }
 
-            val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+            val currentDate = Timestamp.now() // Get the current timestamp directly
 
             if (isChecked) {
                 val attendanceData = hashMapOf(
                     "employeeId" to loggedInEmployeeId,
-                    "date" to currentDate,
+                    "date" to currentDate, // Store as a Timestamp
                     "status" to "Present"
                 )
 
-                db.collection("attendance").document("$loggedInEmployeeId-$currentDate")
+                db.collection("attendance").document("$loggedInEmployeeId-${currentDate.seconds}")
                     .set(attendanceData)
                     .addOnSuccessListener {
                         Toast.makeText(this, "Attendance marked for today.", Toast.LENGTH_SHORT).show()
@@ -80,7 +80,7 @@ class AttendanceActivity : AppCompatActivity() {
                         switchMarkAttendance.isChecked = false
                     }
             } else {
-                db.collection("attendance").document("$loggedInEmployeeId-$currentDate")
+                db.collection("attendance").document("$loggedInEmployeeId-${currentDate.seconds}")
                     .delete()
                     .addOnSuccessListener {
                         Toast.makeText(this, "Attendance removed for today.", Toast.LENGTH_SHORT).show()

@@ -47,7 +47,7 @@
             android:exported="false" />
         <activity android:name=".CompensationActivity" android:parentActivityName=".PayrollActivity"
             android:exported="false" />
-        <activity android:name=".TaxDeductionsActivity" android:parentActivityName=".PayrollActivity"
+        <activity android:name=".HoursWorkedActivity" android:parentActivityName=".PayrollActivity"
             android:exported="false" />
 
         <!-- Performance Management -->

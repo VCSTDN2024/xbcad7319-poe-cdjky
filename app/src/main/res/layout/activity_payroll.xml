@@ -178,7 +178,7 @@
                     android:textColor="@android:color/black" />
             </LinearLayout>
 
-            <!-- Button 4: Tax Deductions -->
+            <!-- Button 4: Hours Worked -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -188,10 +188,10 @@
                 android:layout_margin="8dp">
 
                 <Button
-                    android:id="@+id/btnTaxDeductions"
+                    android:id="@+id/btnHoursWorked"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:text="T"
+                    android:text="H"
                     android:backgroundTint="@android:color/holo_red_dark"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
@@ -200,7 +200,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tax Deductions"
+                    android:text="Hours Worked"
                     android:gravity="center"
                     android:layout_marginTop="8dp"
                     android:textSize="14sp"
