@@ -3,8 +3,11 @@ package com.example.workwise_prototype
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PerformanceActivity : AppCompatActivity() {
 
@@ -20,7 +23,6 @@ class PerformanceActivity : AppCompatActivity() {
     private lateinit var goalStartDate: EditText
     private lateinit var goalEndDate: EditText
     private lateinit var goalHours: EditText
-    private lateinit var loggedInEmployeeId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +31,6 @@ class PerformanceActivity : AppCompatActivity() {
         // Initialize Firebase and UI components
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
-
-        // Get logged-in employee ID
-        val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
-        loggedInEmployeeId = sharedPreferences.getString("actual_employee_id", null) ?: ""
 
         tvEmployeeName = findViewById(R.id.employee_name)
         tvJobRole = findViewById(R.id.job_role)
@@ -63,41 +61,55 @@ class PerformanceActivity : AppCompatActivity() {
     }
 
     private fun fetchAndDisplayUserDetails() {
-        db.collection("actual_employees").document(loggedInEmployeeId).get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    val fullName = document.getString("FullName") ?: "Unknown User"
-                    val jobRole = document.getString("Role") ?: "N/A"
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            db.collection("actual_employees").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val userName = document.getString("FullName") ?: "Unknown User"
+                        val jobRole = document.getString("Role") ?: "N/A"
 
-                    tvEmployeeName.text = fullName
-                    tvJobRole.text = jobRole
+                        tvEmployeeName.text = userName
+                        tvJobRole.text = jobRole
+                    }
                 }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to fetch user details.", Toast.LENGTH_SHORT).show()
-            }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to fetch user details.", Toast.LENGTH_SHORT).show()
+                }
+        }
     }
 
     private fun saveGoal() {
         val description = goalDescription.text.toString().trim()
         val startDate = goalStartDate.text.toString().trim()
         val endDate = goalEndDate.text.toString().trim()
-        val hours = goalHours.text.toString().trim().toDoubleOrNull()
+        val hours = goalHours.text.toString().trim()
 
-        if (description.isNotEmpty() && startDate.isNotEmpty() && endDate.isNotEmpty() && hours != null) {
+        if (description.isNotEmpty() && startDate.isNotEmpty() && endDate.isNotEmpty() && hours.isNotEmpty()) {
+            val userId = auth.currentUser?.uid ?: return
+
+            // Convert date strings to Timestamps
+            val startTimestamp = convertToTimestamp(startDate)
+            val endTimestamp = convertToTimestamp(endDate)
+
+            if (startTimestamp == null || endTimestamp == null) {
+                Toast.makeText(this, "Invalid date format. Use yyyy-MM-dd.", Toast.LENGTH_SHORT).show()
+                return
+            }
+
             val goalData = hashMapOf(
-                "actual_employee_id" to loggedInEmployeeId,
+                "user_id" to userId,
                 "description" to description,
-                "start_date" to startDate,
-                "end_date" to endDate,
-                "hours" to hours,
+                "start_date" to startTimestamp,
+                "end_date" to endTimestamp,
+                "hours" to hours.toDoubleOrNull(),
                 "status" to "In Progress"
             )
 
-            db.collection("goals").add(goalData)
+            db.collection("goals").add(goalData) // Save to "goals" collection
                 .addOnSuccessListener {
                     Toast.makeText(this, "Goal saved successfully.", Toast.LENGTH_SHORT).show()
-                    clearInputFields()
+                    clearInputFields() // Clear inputs after saving
                     loadGoals()
                 }
                 .addOnFailureListener { e ->
@@ -108,9 +120,21 @@ class PerformanceActivity : AppCompatActivity() {
         }
     }
 
+    private fun convertToTimestamp(dateString: String): Timestamp? {
+        return try {
+            val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val date = sdf.parse(dateString)
+            date?.let { Timestamp(it) }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     private fun loadGoals() {
+        val userId = auth.currentUser?.uid ?: return
+
         db.collection("goals")
-            .whereEqualTo("actual_employee_id", loggedInEmployeeId)
+            .whereEqualTo("user_id", userId) // Filter by logged-in user's goals
             .get()
             .addOnSuccessListener { documents ->
                 val goalList = ArrayList<String>()
@@ -120,6 +144,7 @@ class PerformanceActivity : AppCompatActivity() {
                     val status = document.getString("status") ?: "No Status"
                     goalList.add("$description (Hours: $hours, Status: $status)")
                 }
+                // Use goalList to update the UI or display the goals
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed to load goals.", Toast.LENGTH_SHORT).show()
