@@ -1,137 +1,138 @@
 package com.example.workwise_prototype
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var db: FirebaseFirestore
-    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var tvWelcomeMessage: TextView
-    private lateinit var actualEmployeeId: String
+    private lateinit var profileImage: ImageView
+    private lateinit var notificationIcon: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // Initialize Firestore and SharedPreferences
+        // Initialize Firebase
         db = FirebaseFirestore.getInstance()
-        sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
 
-        // Fetch actual_employee_id from SharedPreferences
-        actualEmployeeId = sharedPreferences.getString("actual_employee_id", null) ?: ""
+        // Initialize UI components
+        initializeUI()
 
-        // Initialize UI elements
+        // Setup click listeners
+        setupClickListeners()
+
+        // Fetch user data
+        fetchUserData()
+    }
+
+    private fun initializeUI() {
         tvWelcomeMessage = findViewById(R.id.tvWelcomeMessage)
+        profileImage = findViewById(R.id.profileImage)
+        notificationIcon = findViewById(R.id.notificationIcon)
 
-        // Validate and fetch welcome message
-        if (actualEmployeeId.isNotEmpty()) {
-            fetchAndDisplayWelcomeMessage()
-        } else {
-            handleMissingEmployeeId()
-        }
-
-        // Setup Bottom Navigation
-        setupBottomNavigation()
-
-        // Setup Feature Buttons
-        setupFeatureButtons()
+        // Set click listeners for profile and notifications
+        profileImage.setOnClickListener { handleProfileClick() }
+        notificationIcon.setOnClickListener { handleNotificationsClick() }
     }
 
-    private fun fetchAndDisplayWelcomeMessage() {
-        val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
-        val actualEmployeeId = sharedPreferences.getString("actual_employee_id", null)
+    private fun setupClickListeners() {
+        // Create a map of view IDs to their corresponding activities
+        val navigationMap = mapOf(
+            R.id.employeeRecords to EmployeeRecordsActivity::class.java,
+            R.id.attendance to AttendanceActivity::class.java,
+            R.id.payroll to PayrollActivity::class.java,
+            R.id.performance to PerformanceManagementActivity::class.java,
+            R.id.training to ViewCourseActivity::class.java,
+            R.id.jobs to JobsAndOnboardingActivity::class.java
+        )
 
-        if (!actualEmployeeId.isNullOrEmpty()) {
-            db.collection("actual_employees").document(actualEmployeeId).get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        val fullName = document.getString("FullName") ?: "Employee"
-                        tvWelcomeMessage.text = "Welcome, $fullName!"
-                    } else {
-                        tvWelcomeMessage.text = "Welcome, Employee!"
-                    }
+        // Set up click listeners for all feature cards
+        navigationMap.forEach { (viewId, activityClass) ->
+            findViewById<LinearLayout>(viewId).apply {
+                setOnClickListener {
+                    // Add ripple effect
+                    it.isPressed = true
+                    navigateToActivity(activityClass)
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Failed to fetch details: ${e.message}", Toast.LENGTH_SHORT).show()
-                    tvWelcomeMessage.text = "Welcome, Employee!"
-                }
-        } else {
-            tvWelcomeMessage.text = "Welcome, Employee!"
-        }
-    }
-
-
-    private fun handleMissingEmployeeId() {
-        Toast.makeText(this, "User not authenticated. Redirecting to login...", Toast.LENGTH_SHORT).show()
-        redirectToLogin()
-    }
-
-    private fun handleMissingEmployeeRecord() {
-        Toast.makeText(this, "Employee record not found in the database.", Toast.LENGTH_SHORT).show()
-        tvWelcomeMessage.text = "Welcome, Employee!"
-    }
-
-    private fun redirectToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    private fun setupBottomNavigation() {
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> true
-                R.id.nav_self_service -> {
-                    startActivity(Intent(this, SelfServiceActivity::class.java))
-                    true
-                }
-                R.id.nav_notifications -> {
-                    startActivity(Intent(this, NotificationsActivity::class.java))
-                    true
-                }
-                R.id.nav_settings -> {
-                    startActivity(Intent(this, SettingsActivity::class.java))
-                    true
-                }
-                else -> false
             }
         }
     }
 
-    private fun setupFeatureButtons() {
-        // Employee Records
-        findViewById<LinearLayout>(R.id.employeeRecords).setOnClickListener {
-            startActivity(Intent(this, EmployeeRecordsActivity::class.java))
+    private fun fetchUserData() {
+        val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
+        val employeeId = sharedPreferences.getString("actual_employee_id", null)
+
+        if (employeeId.isNullOrEmpty()) {
+            handleInvalidSession()
+            return
         }
 
-        // Attendance
-        findViewById<LinearLayout>(R.id.attendance).setOnClickListener {
-            startActivity(Intent(this, AttendanceActivity::class.java))
-        }
-
-        // Payroll
-        findViewById<LinearLayout>(R.id.payroll).setOnClickListener {
-            startActivity(Intent(this, PayrollActivity::class.java))
-        }
-
-        // Performance Management
-        findViewById<LinearLayout>(R.id.performance).setOnClickListener {
-            startActivity(Intent(this, PerformanceManagementActivity::class.java))
-        }
-
-        // Training
-        findViewById<LinearLayout>(R.id.training).setOnClickListener {
-            startActivity(Intent(this, CourseMenuActivity::class.java))
-        }
+        db.collection("actual_employees").document(employeeId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    updateUIWithUserData(document.getString("FullName"))
+                } else {
+                    handleMissingEmployeeRecord()
+                }
+            }
+            .addOnFailureListener { e ->
+                showError("Failed to fetch user data: ${e.message}")
+            }
     }
+
+    private fun updateUIWithUserData(fullName: String?) {
+        tvWelcomeMessage.text = "Welcome, ${fullName ?: "Employee"}!"
+    }
+
+    private fun handleInvalidSession() {
+        showToast("Session expired. Please login again.")
+        redirectToLogin()
+    }
+
+    private fun handleMissingEmployeeRecord() {
+        showToast("Employee record not found.")
+        tvWelcomeMessage.text = "Welcome, Employee!"
+    }
+
+    private fun handleProfileClick() {
+        // Implement profile click action
+        showToast("Profile feature coming soon!")
+    }
+
+    private fun handleNotificationsClick() {
+        // Implement notifications click action
+        showToast("Notifications feature coming soon!")
+    }
+
+    private fun navigateToActivity(activityClass: Class<*>) {
+        startActivity(Intent(this, activityClass))
+    }
+
+    private fun redirectToLogin() {
+        startActivity(Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        })
+        finish()
+    }
+
+    private fun showError(message: String) {
+        showToast(message)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    // Optional: Add animation overrides for better transitions
+
 }

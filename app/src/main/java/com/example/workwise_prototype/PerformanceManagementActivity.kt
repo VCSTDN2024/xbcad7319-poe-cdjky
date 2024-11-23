@@ -64,9 +64,7 @@ class PerformanceManagementActivity : AppCompatActivity() {
     }
 
     private fun setupFeatureButtons() {
-        btnBack.setOnClickListener {
-            finish()
-        }
+        btnBack.setOnClickListener { finish() }
 
         btnGoals.setOnClickListener {
             startActivity(Intent(this, PerformanceActivity::class.java))

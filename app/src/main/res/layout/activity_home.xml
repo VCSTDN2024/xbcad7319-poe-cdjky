@@ -1,50 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#292727"
-    android:backgroundTint="#AFA7A7"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="#F5F5F5"
+    android:orientation="vertical">
 
-    <!-- Top Bar with Profile and Notifications -->
+    <!-- Top Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="16dp">
+        android:background="#FFFFFF"
+        android:elevation="4dp"
+        android:padding="16dp">
 
         <ImageView
-            android:id="@+id/imageView9"
-            android:layout_width="1dp"
-            android:layout_height="29dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/profile" />
+            android:id="@+id/profileImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/profile"
+            android:padding="4dp" />
 
         <TextView
             android:id="@+id/tvWelcomeMessage"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
             android:text="Welcome, [Employee Name]!"
+            android:textColor="#212121"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/imageView10"
-            android:layout_width="8dp"
-            android:layout_height="29dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/notifications" />
+            android:id="@+id/notificationIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:src="@drawable/notifications" />
     </LinearLayout>
 
     <!-- Grid Layout for Features -->
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="566dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
+        android:layout_width="389dp"
+        android:layout_height="625dp"
+        android:layout_margin="16dp"
         android:columnCount="2"
-        android:padding="8dp"
         android:rowCount="3">
 
         <!-- Employee Records -->
@@ -54,25 +55,27 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:background="?android:attr/selectableItemBackground"
+            android:layout_margin="8dp"
+            android:background="@drawable/feature_card_background"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:srcCompat="@drawable/employee_records_proper" />
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/employee_records_proper" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
                 android:text="Employee Records"
-                android:textColor="@android:color/white" />
+                android:textColor="#212121"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Attendance -->
@@ -82,25 +85,27 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:background="?android:attr/selectableItemBackground"
+            android:layout_margin="8dp"
+            android:background="@drawable/feature_card_background"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:srcCompat="@drawable/attendance" />
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/attendance" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
                 android:text="Attendance"
-                android:textColor="@android:color/white" />
+                android:textColor="#212121"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Payroll -->
@@ -110,25 +115,27 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:background="?android:attr/selectableItemBackground"
+            android:layout_margin="8dp"
+            android:background="@drawable/feature_card_background"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:srcCompat="@drawable/payroll" />
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/payroll" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
                 android:text="Payroll"
-                android:textColor="@android:color/white" />
+                android:textColor="#212121"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Performance -->
@@ -138,25 +145,27 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:background="?android:attr/selectableItemBackground"
+            android:layout_margin="8dp"
+            android:background="@drawable/feature_card_background"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:srcCompat="@drawable/performance" />
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/performance" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
                 android:text="Performance"
-                android:textColor="@android:color/white" />
+                android:textColor="#212121"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Training -->
@@ -166,63 +175,59 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:background="?android:attr/selectableItemBackground"
+            android:layout_margin="8dp"
+            android:background="@drawable/feature_card_background"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:srcCompat="@drawable/training" />
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/training" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
                 android:text="Training"
-                android:textColor="@android:color/white" />
+                android:textColor="#212121"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Leave Management -->
+        <!-- Jobs -->
         <LinearLayout
-            android:id="@+id/leave"
+            android:id="@+id/jobs"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:background="?android:attr/selectableItemBackground"
+            android:layout_margin="8dp"
+            android:background="@drawable/feature_card_background"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:srcCompat="@drawable/leave" />
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/leave" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="Leave Management"
-                android:textColor="@android:color/white" />
+                android:text="Available Jobs"
+                android:textColor="#212121"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </LinearLayout>
-    </GridLayout>
 
-    <!-- Bottom Navigation Bar -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="#686666"
-        app:menu="@menu/bottom_navigation_menu" />
+    </GridLayout>
 
 </LinearLayout>

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PersonalPerformanceActivity : AppCompatActivity() {
 
@@ -13,8 +15,7 @@ class PersonalPerformanceActivity : AppCompatActivity() {
     private lateinit var employeeName: TextView
     private lateinit var avgScore: TextView
     private lateinit var performanceLevel: TextView
-    private lateinit var goalList: ListView
-    private lateinit var reviewList: ListView
+    private lateinit var feedbackList: ListView
     private lateinit var btnBack: Button
 
     private lateinit var loggedInEmployeeId: String
@@ -34,8 +35,7 @@ class PersonalPerformanceActivity : AppCompatActivity() {
         employeeName = findViewById(R.id.employee_name)
         avgScore = findViewById(R.id.avgScore)
         performanceLevel = findViewById(R.id.performanceLevel)
-        goalList = findViewById(R.id.goalList)
-        reviewList = findViewById(R.id.reviewList)
+        feedbackList = findViewById(R.id.feedbackList)
         btnBack = findViewById(R.id.btnBack)
 
         // Back Button Functionality
@@ -45,9 +45,7 @@ class PersonalPerformanceActivity : AppCompatActivity() {
 
         // Fetch and Populate Data
         fetchUserDetails()
-        fetchPerformanceData()
-        fetchCurrentGoals()
-        fetchRecentReviews()
+        fetchGoalsFeedback()
     }
 
     private fun fetchUserDetails() {
@@ -64,53 +62,68 @@ class PersonalPerformanceActivity : AppCompatActivity() {
             }
     }
 
-    private fun fetchPerformanceData() {
-        db.collection("performance_data").whereEqualTo("employeeId", loggedInEmployeeId).get()
+    private fun fetchGoalsFeedback() {
+        db.collection("goals_feedback")
+            .whereEqualTo("actual_employee_id", loggedInEmployeeId)
+            .get()
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
-                    val avg = documents.map { it.getDouble("score") ?: 0.0 }.average()
-                    avgScore.text = "Average Score: %.2f".format(avg)
+                    val feedbackData = mutableListOf<String>()
+                    var totalScore = 0.0
+                    var count = 0
+
+                    // Log total number of documents fetched
+                    println("Total feedback documents retrieved: ${documents.size()}")
+
+                    for (document in documents) {
+                        val description = document.getString("description") ?: "No description"
+                        val feedback = document.getString("feedback") ?: "No feedback"
+                        val score = try {
+                            document.getDouble("score") ?: 0.0 // Default to 0.0 if missing
+                        } catch (e: Exception) {
+                            0.0 // Handle cases where score is not a number
+                        }
+                        val startDate = document.getTimestamp("start_date")?.toDate()?.let {
+                            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(it)
+                        } ?: "N/A"
+                        val endDate = document.getTimestamp("end_date")?.toDate()?.let {
+                            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(it)
+                        } ?: "N/A"
+
+                        // Log each feedback document
+                        println("Feedback Document: $description, Score: $score, Feedback: $feedback")
+
+                        totalScore += score
+                        count++
+
+                        feedbackData.add(
+                            "Goal: $description\nStart: $startDate\nEnd: $endDate\nScore: $score\nFeedback: $feedback"
+                        )
+                    }
+
+                    // Update performance level and average score
+                    avgScore.text = "Average Score: %.2f".format(totalScore / count)
                     performanceLevel.text = "Performance Level: ${
-                        if (avg >= 8) "Outstanding"
-                        else if (avg >= 6) "Good"
-                        else "Needs Improvement"
+                        when {
+                            totalScore / count >= 8 -> "Outstanding"
+                            totalScore / count >= 6 -> "Good"
+                            else -> "Needs Improvement"
+                        }
                     }"
+
+                    // Display feedback
+                    val adapter =
+                        ArrayAdapter(this, android.R.layout.simple_list_item_1, feedbackData)
+                    feedbackList.adapter = adapter
                 } else {
                     avgScore.text = "Average Score: N/A"
                     performanceLevel.text = "Performance Level: N/A"
+                    Toast.makeText(this, "No feedback found.", Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener {
-                avgScore.text = "Error fetching performance data"
-                performanceLevel.text = "Error fetching performance data"
+                Toast.makeText(this, "Error fetching feedback: ${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
 
-    private fun fetchCurrentGoals() {
-        db.collection("goals").whereEqualTo("employeeId", loggedInEmployeeId).get()
-            .addOnSuccessListener { documents ->
-                val goals = documents.map { it.getString("description") ?: "No description" }
-                val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, goals)
-                goalList.adapter = adapter
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Error fetching goals", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    private fun fetchRecentReviews() {
-        db.collection("performance_reviews").whereEqualTo("employeeId", loggedInEmployeeId).get()
-            .addOnSuccessListener { documents ->
-                val reviews = documents.map {
-                    val feedback = it.getString("feedback") ?: "No feedback"
-                    val rating = it.getDouble("rating") ?: 0.0
-                    "Feedback: $feedback, Rating: $rating"
-                }
-                val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, reviews)
-                reviewList.adapter = adapter
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Error fetching reviews", Toast.LENGTH_SHORT).show()
-            }
-    }
 }

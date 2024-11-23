@@ -7,4 +7,11 @@
     <color name="special_gray">#D6D6D6</color> <!-- Replace this value if you find a more specific gray -->
     <color name="gray">#808080</color>
     <color name="green">#A4C639</color>
+    <color name="background_color">#F5F5F5</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="icon_tint">#1976D2</color>
+    <color name="ripple_color">#1F1976D2</color>
+
 </resources>

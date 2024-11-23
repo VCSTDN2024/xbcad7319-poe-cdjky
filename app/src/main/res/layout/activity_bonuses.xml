@@ -48,6 +48,30 @@
                 android:layout_marginBottom="8dp" />
         </LinearLayout>
 
+        <!-- Password Input -->
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Password to Unlock Bonuses"
+            android:inputType="textPassword"
+            android:layout_marginTop="16dp"
+            android:padding="12dp"
+            android:background="@android:color/darker_gray"
+            android:textColor="@android:color/black" />
+
+        <!-- Unlock Bonuses Button -->
+        <Button
+            android:id="@+id/btnUnlockBonuses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Unlock Bonuses"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:padding="12dp" />
+
         <!-- Bonuses Content -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,75 +91,11 @@
 
             <!-- TableLayout for Bonuses Data -->
             <TableLayout
+                android:id="@+id/bonusesTable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:stretchColumns="1">
-
-                <!-- Populate with multiple rows -->
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Employee: Cian Brink"
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="R5100"
-                        android:padding="8dp" />
-                </TableRow>
-
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Employee: Yuvaan Pather"
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="R8200"
-                        android:padding="8dp" />
-                </TableRow>
-
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Employee: Kayur Betchu"
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="R4000"
-                        android:padding="8dp" />
-                </TableRow>
-
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Employee: Joshua Reddy"
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="R3500"
-                        android:padding="8dp" />
-                </TableRow>
-
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Employee: Dylan Pather"
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="R4200"
-                        android:padding="8dp" />
-                </TableRow>
+                <!-- Rows will be dynamically added here -->
             </TableLayout>
         </LinearLayout>
     </LinearLayout>

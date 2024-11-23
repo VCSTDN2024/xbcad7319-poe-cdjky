@@ -75,7 +75,7 @@
         <!-- Add Goal Section -->
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="51dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="Set a New Goal"
             android:textColor="@android:color/black"
@@ -92,31 +92,37 @@
             android:padding="12dp"
             android:layout_marginBottom="8dp" />
 
-        <EditText
+        <TextView
             android:id="@+id/goalStartDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Start Date (yyyy-mm-dd)"
-            android:inputType="date"
+            android:hint="Select Start Date"
+            android:text="Select Start Date"
             android:background="@android:color/darker_gray"
+            android:gravity="center_vertical"
             android:padding="12dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:focusable="true" />
 
-        <EditText
+        <TextView
             android:id="@+id/goalEndDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="End Date (yyyy-mm-dd)"
-            android:inputType="date"
+            android:hint="Select End Date"
+            android:text="Select End Date"
             android:background="@android:color/darker_gray"
+            android:gravity="center_vertical"
             android:padding="12dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:focusable="true" />
 
         <EditText
             android:id="@+id/goalHours"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="I aim to work these hours (e.g., 4)"
+            android:hint="Enter hours (e.g., 4)"
             android:inputType="numberDecimal"
             android:background="@android:color/darker_gray"
             android:padding="12dp"

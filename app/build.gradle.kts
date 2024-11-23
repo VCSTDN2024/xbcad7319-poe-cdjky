@@ -59,8 +59,11 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation(libs.androidx.activity)
-    implementation ("com.google.firebase:firebase-firestore:24.7.1") // Replace with the latest version
-
+    implementation ("com.google.firebase:firebase-firestore:24.7.1")
+    implementation(libs.androidx.gridlayout) // Replace with the latest version
+    implementation ("com.google.android.material:material:1.9.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
+    implementation ("androidx.dynamicanimation:dynamicanimation:1.0.0")
 
 
     // Testing Libraries

@@ -6,7 +6,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -15,6 +14,7 @@ class HoursWorkedActivity : AppCompatActivity() {
     private lateinit var etMonthlyHours: EditText
     private lateinit var etOvertimeHours: EditText
     private lateinit var btnSubmitHours: Button
+    private lateinit var btnBack: Button
 
     private val db = FirebaseFirestore.getInstance()
     private lateinit var actualEmployeeId: String
@@ -28,23 +28,29 @@ class HoursWorkedActivity : AppCompatActivity() {
         etMonthlyHours = findViewById(R.id.etMonthlyHours)
         etOvertimeHours = findViewById(R.id.etOvertimeHours)
         btnSubmitHours = findViewById(R.id.btnSubmitHours)
+        btnBack = findViewById(R.id.btnBack)
 
         // Retrieve actual_employee_id from SharedPreferences
         val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
         actualEmployeeId = sharedPreferences.getString("actual_employee_id", null) ?: ""
 
-        // Check for existing entry and setup UI accordingly
+        // Check if hours already submitted for this month
         checkExistingEntry()
 
         // Set up the submit button
         btnSubmitHours.setOnClickListener {
             submitHours()
         }
+
+        // Set up the back button
+        btnBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun checkExistingEntry() {
-        db.collection("employee_salaries")
-            .whereEqualTo("employee_id", actualEmployeeId)
+        db.collection("monthly_hours")
+            .whereEqualTo("actual_employee_id", actualEmployeeId)
             .whereEqualTo("month", currentMonth)
             .get()
             .addOnSuccessListener { documents ->
@@ -87,14 +93,14 @@ class HoursWorkedActivity : AppCompatActivity() {
         }
 
         val data = hashMapOf(
-            "employee_id" to actualEmployeeId,
+            "actual_employee_id" to actualEmployeeId,
             "month" to currentMonth,
             "monthly_hours" to monthlyHours.toDouble(),
             "overtime_hours" to overtimeHours.toDouble(),
-            "timestamp" to System.currentTimeMillis() // For tracking submission time
+            "submitted_at" to System.currentTimeMillis() // Timestamp for tracking submission
         )
 
-        db.collection("employee_salaries").document("$actualEmployeeId-$currentMonth")
+        db.collection("monthly_hours").document("$actualEmployeeId-$currentMonth")
             .set(data)
             .addOnSuccessListener {
                 Toast.makeText(this, "Hours submitted successfully.", Toast.LENGTH_SHORT).show()

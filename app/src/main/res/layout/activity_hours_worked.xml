@@ -16,12 +16,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@android:color/holo_blue_light"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:elevation="4dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hours Worked"
+                android:text="Submit Monthly Hours"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
@@ -37,7 +38,7 @@
             android:inputType="numberDecimal"
             android:layout_marginTop="24dp"
             android:padding="12dp"
-            android:background="@android:color/darker_gray"
+            android:background="@drawable/edit_text_background"
             android:textColor="@android:color/black" />
 
         <!-- Overtime Hours Input -->
@@ -49,7 +50,7 @@
             android:inputType="numberDecimal"
             android:layout_marginTop="16dp"
             android:padding="12dp"
-            android:background="@android:color/darker_gray"
+            android:background="@drawable/edit_text_background"
             android:textColor="@android:color/black" />
 
         <!-- Submit Hours Button -->

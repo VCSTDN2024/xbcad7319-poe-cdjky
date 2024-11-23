@@ -1,78 +1,141 @@
 package com.example.workwise_prototype
 
+import android.app.DatePickerDialog
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.*
 
 class PerformanceDataActivity : AppCompatActivity() {
 
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
+    private lateinit var tvEmployeeName: TextView
+    private lateinit var tvJobRole: TextView
+    private lateinit var btnSaveGoal: Button
     private lateinit var btnBack: Button
-    private lateinit var btnSubmit: Button
-    private lateinit var month: EditText
-    private lateinit var year: EditText
-    private lateinit var performanceReview: EditText
-
-    private val firestore = FirebaseFirestore.getInstance()
-    private lateinit var loggedInEmployeeId: String
+    private lateinit var goalDescription: EditText
+    private lateinit var goalStartDate: TextView
+    private lateinit var goalEndDate: TextView
+    private lateinit var goalHours: EditText
+    private var startDate: Timestamp? = null
+    private var endDate: Timestamp? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_performance_data)
+        setContentView(R.layout.activity_performance)
 
-        // Initialize views
+        // Initialize Firebase and UI components
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+
+        tvEmployeeName = findViewById(R.id.employee_name)
+        tvJobRole = findViewById(R.id.job_role)
+        btnSaveGoal = findViewById(R.id.btnSaveGoal)
         btnBack = findViewById(R.id.btnBack)
-        btnSubmit = findViewById(R.id.btnSubmit)
-        month = findViewById(R.id.month)
-        year = findViewById(R.id.year)
-        performanceReview = findViewById(R.id.performanceReview)
+        goalDescription = findViewById(R.id.goalDescription)
+        goalStartDate = findViewById(R.id.goalStartDate)
+        goalEndDate = findViewById(R.id.goalEndDate)
+        goalHours = findViewById(R.id.goalHours)
 
-        // Retrieve logged-in employee ID
-        val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
-        loggedInEmployeeId = sharedPreferences.getString("actual_employee_id", null) ?: ""
+        fetchAndDisplayUserDetails()
 
-        // Back button functionality
-        btnBack.setOnClickListener {
-            finish() // Navigate back to the previous screen
-        }
+        goalStartDate.setOnClickListener { pickDate(true) }
+        goalEndDate.setOnClickListener { pickDate(false) }
+        btnSaveGoal.setOnClickListener { saveGoal() }
+        btnBack.setOnClickListener { finish() }
+    }
 
-        // Submit button functionality
-        btnSubmit.setOnClickListener {
-            val monthText = month.text.toString()
-            val yearText = year.text.toString()
-            val review = performanceReview.text.toString()
+    private fun pickDate(isStartDate: Boolean) {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-            if (monthText.isNotEmpty() && yearText.isNotEmpty() && review.isNotEmpty()) {
-                savePerformanceData(monthText, yearText, review)
-            } else {
-                Toast.makeText(this, "Please fill out all fields", Toast.LENGTH_SHORT).show()
-            }
+        val datePicker = DatePickerDialog(
+            this,
+            { _, selectedYear, selectedMonth, selectedDay ->
+                val selectedDate = Calendar.getInstance()
+                selectedDate.set(selectedYear, selectedMonth, selectedDay)
+                val timestamp = Timestamp(selectedDate.time)
+
+                if (isStartDate) {
+                    startDate = timestamp
+                    goalStartDate.text = "${selectedDay}-${selectedMonth + 1}-${selectedYear}"
+                } else {
+                    endDate = timestamp
+                    goalEndDate.text = "${selectedDay}-${selectedMonth + 1}-${selectedYear}"
+                }
+            },
+            year,
+            month,
+            day
+        )
+        datePicker.show()
+    }
+
+    private fun fetchAndDisplayUserDetails() {
+        val userId = auth.currentUser?.uid
+        userId?.let {
+            db.collection("actual_employees").document(it).get()
+                .addOnSuccessListener { document ->
+                    tvEmployeeName.text = document.getString("FullName") ?: "Unknown"
+                    tvJobRole.text = document.getString("Role") ?: "N/A"
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to fetch user details.", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 
-    private fun savePerformanceData(month: String, year: String, review: String) {
-        val performanceData = hashMapOf(
-            "employeeId" to loggedInEmployeeId,
-            "month" to month,
-            "year" to year,
-            "review" to review
+    private fun saveGoal() {
+        val description = goalDescription.text.toString().trim()
+        val hoursText = goalHours.text.toString().trim()
+
+        if (description.isEmpty() || hoursText.isEmpty() || startDate == null || endDate == null) {
+            Toast.makeText(this, "All fields are required.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (startDate!! > endDate!!) {
+            Toast.makeText(this, "Start date must be before end date.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val hours = hoursText.toDoubleOrNull()
+        if (hours == null) {
+            Toast.makeText(this, "Please enter valid hours.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val goalData = hashMapOf(
+            "user_id" to (auth.currentUser?.uid ?: ""),
+            "description" to description,
+            "start_date" to startDate,
+            "end_date" to endDate,
+            "hours" to hours,
+            "status" to "In Progress"
         )
 
-        firestore.collection("performance_data").add(performanceData)
+        db.collection("goals").add(goalData)
             .addOnSuccessListener {
-                Toast.makeText(this, "Performance data saved successfully!", Toast.LENGTH_SHORT).show()
-                clearFields()
+                Toast.makeText(this, "Goal saved successfully.", Toast.LENGTH_SHORT).show()
+                clearInputFields()
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Failed to save data. Try again.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed to save goal.", Toast.LENGTH_SHORT).show()
             }
     }
 
-    private fun clearFields() {
-        month.text.clear()
-        year.text.clear()
-        performanceReview.text.clear()
+    private fun clearInputFields() {
+        goalDescription.text.clear()
+        goalStartDate.text = "Select Start Date"
+        goalEndDate.text = "Select End Date"
+        goalHours.text.clear()
+        startDate = null
+        endDate = null
     }
 }

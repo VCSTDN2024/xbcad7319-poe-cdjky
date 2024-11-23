@@ -39,7 +39,7 @@
                 android:id="@+id/employee_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loading..."
+                android:text="Fetching Name..."
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="4dp"
@@ -63,38 +63,21 @@
                 android:textColor="@android:color/black" />
         </LinearLayout>
 
-        <!-- Performance Goals Section -->
+        <!-- Goals Feedback Section -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Current Goals"
+            android:text="Goals Feedback"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"
             android:textColor="@android:color/black" />
 
         <ListView
-            android:id="@+id/goalList"
+            android:id="@+id/feedbackList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@android:color/darker_gray"
-            android:dividerHeight="1dp"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Performance Reviews Section -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Recent Reviews"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp"
-            android:textColor="@android:color/black" />
-
-        <ListView
-            android:id="@+id/reviewList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="387dp"
+            android:layout_marginBottom="16dp"
             android:divider="@android:color/darker_gray"
             android:dividerHeight="1dp" />
     </LinearLayout>

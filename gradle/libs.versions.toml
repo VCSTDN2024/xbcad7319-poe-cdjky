@@ -13,6 +13,7 @@ firebaseAuthKtx = "23.0.0"
 firebaseDatabaseKtx = "21.0.0"
 firebaseFirestoreKtx = "25.1.0"
 youtubeAndroidPlayerApi = "1.2.2"
+gridlayout = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -27,6 +28,7 @@ firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx",
 firebase-database-ktx = { group = "com.google.firebase", name = "firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 youtube-android-player-api = { module = "com.google.android.youtube:youtube-android-player-api", version.ref = "youtubeAndroidPlayerApi" }
+androidx-gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

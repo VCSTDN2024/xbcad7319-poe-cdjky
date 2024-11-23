@@ -30,62 +30,69 @@
             android:layout_marginBottom="24dp"
             android:textColor="@android:color/black" />
 
-        <!-- Employee Name/ID -->
+        <!-- Employee Name -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Employee Name/ID:"
+            android:text="Employee Name:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:layout_marginBottom="8dp" />
 
-        <EditText
+        <TextView
             android:id="@+id/employeeName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Employee Name/ID"
-            android:background="@android:color/darker_gray"
+            android:hint="Fetching Employee Name"
             android:padding="12dp"
+            android:textColor="@android:color/black"
+            android:background="@android:color/darker_gray"
             android:layout_marginBottom="16dp" />
 
-        <!-- Month -->
+        <!-- Month Picker -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Month:"
+            android:text="Select Month:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:layout_marginBottom="8dp" />
 
-        <EditText
-            android:id="@+id/month"
+        <TextView
+            android:id="@+id/monthPicker"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Month (e.g., January)"
+            android:layout_height="55dp"
+            android:layout_marginBottom="16dp"
             android:background="@android:color/darker_gray"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp" />
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:hint="Select Month"
+            android:padding="12dp" />
 
-        <!-- Year -->
+        <!-- Year Picker -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Year:"
+            android:text="Select Year:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:layout_marginBottom="8dp" />
 
-        <EditText
-            android:id="@+id/year"
+        <TextView
+            android:id="@+id/yearPicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Year (e.g., 2024)"
+            android:layout_marginBottom="16dp"
             android:background="@android:color/darker_gray"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp" />
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:hint="Select Year"
+            android:padding="12dp" />
 
         <!-- Review of Performance -->
         <TextView

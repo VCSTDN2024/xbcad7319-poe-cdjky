@@ -7,9 +7,8 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.Timestamp
-import java.util.Calendar
+import com.google.firebase.firestore.FirebaseFirestore
 
 class AttendanceActivity : AppCompatActivity() {
 
@@ -22,6 +21,7 @@ class AttendanceActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var loggedInEmployeeId: String
     private lateinit var fullName: String
+    private var hasClockedIn = false // Tracks if the employee has clocked in
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,25 +34,25 @@ class AttendanceActivity : AppCompatActivity() {
         btnLeaveBalances = findViewById(R.id.btnLeaveBalances)
         btnLeaveRequestForm = findViewById(R.id.btnLeaveRequestForm)
 
-        // Retrieve logged-in actual_employee_id
+        // Retrieve logged-in employee ID
         val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
         loggedInEmployeeId = sharedPreferences.getString("actual_employee_id", null) ?: ""
 
-        // Fetch FullName using actual_employee_id
+        // Fetch employee details
         fetchEmployeeDetails()
 
-        // Set up switch functionality for marking attendance
+        // Set up attendance switch functionality
         setupAttendanceSwitch()
 
-        // Set up Clock Out button functionality
+        // Set up clock-out button functionality
         setupClockOutButton()
 
-        // Set up Leave Balances button functionality
+        // Set up Leave Balances button
         btnLeaveBalances.setOnClickListener {
-            fetchLeaveBalance() // New functionality to fetch leave balance
+            fetchLeaveBalance()
         }
 
-        // Set up Leave Request Form button functionality
+        // Set up Leave Request Form button
         btnLeaveRequestForm.setOnClickListener {
             startActivity(Intent(this, LeaveRequestFormActivity::class.java))
         }
@@ -61,9 +61,8 @@ class AttendanceActivity : AppCompatActivity() {
     private fun fetchEmployeeDetails() {
         db.collection("actual_employees").document(loggedInEmployeeId).get()
             .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
+                if (document.exists()) {
                     fullName = document.getString("FullName") ?: "Employee"
-                    checkAttendanceStatus()
                 } else {
                     Toast.makeText(this, "Failed to fetch employee details.", Toast.LENGTH_SHORT).show()
                 }
@@ -74,69 +73,19 @@ class AttendanceActivity : AppCompatActivity() {
     }
 
     private fun fetchLeaveBalance() {
-        if (loggedInEmployeeId.isEmpty()) {
-            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        // Fetch the leave balance from the actual_employee table
         db.collection("actual_employees").document(loggedInEmployeeId).get()
             .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    val leaveBalance = document.getLong("leaveBalance") ?: 0
-                    Toast.makeText(this, "Your leave balance: $leaveBalance days", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(this, "No leave balance found.", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(
-                    this,
-                    "Error fetching leave balances: ${e.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-    }
-
-    private fun checkAttendanceStatus() {
-        // Check if attendance has already been marked for today
-        val todayStart = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.time
-
-        db.collection("attendance")
-            .whereEqualTo("employeeId", loggedInEmployeeId)
-            .whereGreaterThan("date", Timestamp(todayStart))
-            .get()
-            .addOnSuccessListener { documents ->
-                if (documents.isEmpty) {
-                    switchMarkAttendance.isChecked = false
-                    switchMarkAttendance.isEnabled = true
-                    btnClockOut.isEnabled = false
-                } else {
-                    switchMarkAttendance.isChecked = true
-                    switchMarkAttendance.isEnabled = false
-                    btnClockOut.isEnabled = true
-                }
+                val leaveBalance = document.getLong("leaveBalance") ?: 0
+                Toast.makeText(this, "Your leave balance: $leaveBalance days", Toast.LENGTH_LONG).show()
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Error checking attendance.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error fetching leave balances.", Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun setupAttendanceSwitch() {
         switchMarkAttendance.setOnCheckedChangeListener { _, isChecked ->
-            if (loggedInEmployeeId.isEmpty()) {
-                Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
-                switchMarkAttendance.isChecked = false
-                return@setOnCheckedChangeListener
-            }
-
-            val currentTimestamp = Timestamp.now() // Current timestamp
-
+            val currentTimestamp = Timestamp.now()
             if (isChecked) {
                 val attendanceData = hashMapOf(
                     "employeeId" to loggedInEmployeeId,
@@ -145,20 +94,17 @@ class AttendanceActivity : AppCompatActivity() {
                     "status" to "Present"
                 )
 
-                db.collection("attendance").document("$loggedInEmployeeId-${currentTimestamp.seconds}")
+                db.collection("attendance")
+                    .document("$loggedInEmployeeId-${currentTimestamp.seconds}")
                     .set(attendanceData)
                     .addOnSuccessListener {
-                        btnClockOut.isEnabled = true
-                        switchMarkAttendance.isEnabled = false
-                        Toast.makeText(this, "Attendance marked for today.", Toast.LENGTH_SHORT).show()
+                        hasClockedIn = true // Mark the employee as clocked in
+                        btnClockOut.isEnabled = true // Enable the clock-out button
+                        Toast.makeText(this, "Attendance marked successfully.", Toast.LENGTH_SHORT).show()
                     }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(
-                            this,
-                            "Failed to mark attendance: ${e.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    .addOnFailureListener {
                         switchMarkAttendance.isChecked = false
+                        Toast.makeText(this, "Failed to mark attendance.", Toast.LENGTH_SHORT).show()
                     }
             }
         }
@@ -166,37 +112,30 @@ class AttendanceActivity : AppCompatActivity() {
 
     private fun setupClockOutButton() {
         btnClockOut.setOnClickListener {
-            if (loggedInEmployeeId.isEmpty()) {
-                Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
+            if (!hasClockedIn) {
+                Toast.makeText(this, "You need to clock in before clocking out.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             val clockOutTime = Timestamp.now()
-            val todayStart = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }.time
 
             db.collection("attendance")
                 .whereEqualTo("employeeId", loggedInEmployeeId)
-                .whereGreaterThan("date", Timestamp(todayStart))
                 .get()
                 .addOnSuccessListener { documents ->
                     if (documents.isEmpty) {
-                        Toast.makeText(this, "No attendance record found to clock out.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "You need to clock in before clocking out.", Toast.LENGTH_SHORT).show()
                         return@addOnSuccessListener
                     }
 
+                    // Update the first clock-in record for today
                     for (document in documents) {
                         db.collection("attendance").document(document.id)
-                            .update("clock_out", clockOutTime)
+                            .update("clockOut", clockOutTime)
                             .addOnSuccessListener {
-                                Toast.makeText(this, "Clock-out time recorded.", Toast.LENGTH_SHORT).show()
-                                btnClockOut.isEnabled = false
-                                switchMarkAttendance.isChecked = false
-                                switchMarkAttendance.isEnabled = true
+                                hasClockedIn = false // Reset the clocked-in status
+                                btnClockOut.isEnabled = false // Disable the clock-out button
+                                Toast.makeText(this, "Clock-out time recorded successfully.", Toast.LENGTH_SHORT).show()
                             }
                             .addOnFailureListener { e ->
                                 Toast.makeText(this, "Failed to record clock-out: ${e.message}", Toast.LENGTH_SHORT).show()
