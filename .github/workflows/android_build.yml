@@ -1,4 +1,4 @@
-name: Android CI/CD Workflow
+name: Android CI/CD Workflow (Gradle 8.6)
 
 on:
   push:
@@ -22,10 +22,10 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        java-version: '11'
+        java-version: '11' # Use Java 11 for Gradle 8.6
         distribution: 'zulu'
 
-    # Step 3: Set up Gradle
+    # Step 3: Cache Gradle Wrapper
     - name: Cache Gradle Wrapper
       id: cache-gradle-wrapper
       uses: actions/cache@v3
@@ -56,7 +56,7 @@ jobs:
     - name: Run Tests
       run: ./gradlew test
 
-    # Step 7: Verify APK Output (Optional)
+    # Step 7: Archive APK
     - name: Archive APK
       uses: actions/upload-artifact@v3
       with:
