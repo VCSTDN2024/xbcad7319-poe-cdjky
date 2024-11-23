@@ -13,14 +13,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Set up Java 17
       - name: Set up Java 17
         uses: actions/setup-java@v3
         with:
+          distribution: 'zulu' # Use Zulu distribution for better Gradle compatibility
           java-version: '17'
 
+      # Step 3: Cache Gradle dependencies
       - name: Cache Gradle dependencies
         uses: actions/cache@v3
         with:
@@ -29,14 +33,33 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle
 
+      # Step 4: Set up Android SDK
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 33
+          build-tools: 33.0.2
+          target: android-33
+
+      # Step 5: Grant execute permission for Gradlew
       - name: Grant execute permission for Gradlew
         run: chmod +x ./gradlew
 
+      # Step 6: Build with Gradle
       - name: Build with Gradle
-        run: ./gradlew build --stacktrace
+        run: ./gradlew assembleDebug --stacktrace
 
+      # Step 7: Run Unit Tests
       - name: Run Unit Tests
         run: ./gradlew test
 
+      # Step 8: Generate Debug APK
       - name: Generate Debug APK
         run: ./gradlew assembleDebug
+
+      # Step 9: Upload Debug APK (Optional)
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
