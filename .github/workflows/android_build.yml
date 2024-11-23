@@ -1,0 +1,64 @@
+name: Android CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test Android Project
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up JDK for Android
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'zulu'
+
+    # Step 3: Set up Gradle
+    - name: Cache Gradle Wrapper
+      id: cache-gradle-wrapper
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/wrapper/
+        key: gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+    # Step 4: Cache Gradle Dependencies
+    - name: Cache Gradle Dependencies
+      id: cache-gradle-dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches/
+          ~/.gradle/daemon/
+          ~/.gradle/native/
+          ~/.gradle/workerMain/
+        key: gradle-dependencies-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/build.gradle', '**/settings.gradle') }}
+        restore-keys: |
+          gradle-dependencies-
+
+    # Step 5: Build the project
+    - name: Build Android Project
+      run: ./gradlew assembleDebug
+
+    # Step 6: Run Unit Tests
+    - name: Run Tests
+      run: ./gradlew test
+
+    # Step 7: Verify APK Output (Optional)
+    - name: Archive APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-debug.apk
+        path: app/build/outputs/apk/debug/app-debug.apk
