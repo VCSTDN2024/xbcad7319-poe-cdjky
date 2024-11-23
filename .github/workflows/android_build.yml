@@ -1,4 +1,4 @@
-name: Android CI/CD Workflow (Gradle 8.6)
+name: Android CI
 
 on:
   push:
@@ -10,55 +10,41 @@ on:
 
 jobs:
   build:
-    name: Build and Test Android Project
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the repository
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    # Step 2: Set up JDK for Android
-    - name: Set up JDK
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11' # Use Java 11 for Gradle 8.6
-        distribution: 'zulu'
+      # Step 2: Set up JDK for Gradle
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu' # Use Zulu OpenJDK
+          java-version: '11'   # Recommended version for Android projects
 
-    # Step 3: Cache Gradle Wrapper
-    - name: Cache Gradle Wrapper
-      id: cache-gradle-wrapper
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/wrapper/
-        key: gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+      # Step 3: Cache Gradle dependencies
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle
 
-    # Step 4: Cache Gradle Dependencies
-    - name: Cache Gradle Dependencies
-      id: cache-gradle-dependencies
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches/
-          ~/.gradle/daemon/
-          ~/.gradle/native/
-          ~/.gradle/workerMain/
-        key: gradle-dependencies-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/build.gradle', '**/settings.gradle') }}
-        restore-keys: |
-          gradle-dependencies-
+      # Step 4: Grant Gradle execution permission
+      - name: Grant execute permission for Gradlew
+        run: chmod +x ./gradlew
 
-    # Step 5: Build the project
-    - name: Build Android Project
-      run: ./gradlew assembleDebug
+      # Step 5: Build the project
+      - name: Build with Gradle
+        run: ./gradlew build
 
-    # Step 6: Run Unit Tests
-    - name: Run Tests
-      run: ./gradlew test
+      # Step 6: Run unit tests
+      - name: Run Unit Tests
+        run: ./gradlew test
 
-    # Step 7: Archive APK
-    - name: Archive APK
-      uses: actions/upload-artifact@v3
-      with:
-        name: app-debug.apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+      # Step 7: Assemble the APK
+      - name: Assemble Debug APK
+        run: ./gradlew assembleDebug
