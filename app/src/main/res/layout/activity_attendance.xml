@@ -2,22 +2,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@android:color/white"
+    android:background="@drawable/gradient_background"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/gradient_purple">
 
         <!-- Header Section -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="112dp"
-            android:background="@android:color/holo_blue_light"
-            android:elevation="4dp"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_red"
+            android:padding="16dp"
+            android:elevation="8dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvAttendanceTitle"
@@ -43,9 +44,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="24dp"
-            android:padding="12dp"
-            android:background="@android:color/darker_gray"
+            android:background="@drawable/card_background"
             android:elevation="4dp"
+            android:padding="12dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -55,59 +56,61 @@
                 android:text="Mark Attendance for Today"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/black" />
 
             <Switch
                 android:id="@+id/switchMarkAttendance"
-                android:layout_width="75dp"
-                android:layout_height="39dp"
-                android:thumbTint="@android:color/holo_green_light"
-                android:trackTint="@android:color/white" />
+                android:layout_width="91dp"
+                android:layout_height="37dp"
+                android:thumbTint="@android:color/holo_red_dark"
+                android:trackTint="@android:color/darker_gray"/>
         </LinearLayout>
 
         <!-- Clock Out Button -->
         <Button
             android:id="@+id/btnClockOut"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Clock Out"
             android:backgroundTint="@android:color/holo_red_dark"
             android:textColor="@android:color/white"
             android:enabled="false" />
 
-        <!-- Buttons Section -->
+        <!-- Leave Management Section -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Leave Management"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="16dp"
-            android:textColor="@android:color/black" />
+            android:text="Leave Management"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="174dp"
+            android:background="@drawable/card_background"
+            android:elevation="8dp"
+            android:gravity="center"
             android:orientation="vertical"
-            android:gravity="center">
+            android:padding="16dp">
 
             <Button
                 android:id="@+id/btnLeaveBalances"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="View Leave Balances"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:backgroundTint="@android:color/holo_blue_dark"
-                android:textColor="@android:color/white"
-                android:layout_marginBottom="16dp" />
+                android:text="View Leave Balances"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/btnLeaveRequestForm"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Leave Request Form"
+                android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/holo_blue_dark"
+                android:text="Leave Request Form"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </LinearLayout>
