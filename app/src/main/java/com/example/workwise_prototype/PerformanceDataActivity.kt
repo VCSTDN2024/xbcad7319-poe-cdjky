@@ -16,7 +16,6 @@ class PerformanceDataActivity : AppCompatActivity() {
     private lateinit var tvEmployeeName: TextView
     private lateinit var tvJobRole: TextView
     private lateinit var btnSaveGoal: Button
-    private lateinit var btnBack: Button
     private lateinit var goalDescription: EditText
     private lateinit var goalStartDate: TextView
     private lateinit var goalEndDate: TextView
@@ -35,7 +34,6 @@ class PerformanceDataActivity : AppCompatActivity() {
         tvEmployeeName = findViewById(R.id.employee_name)
         tvJobRole = findViewById(R.id.job_role)
         btnSaveGoal = findViewById(R.id.btnSaveGoal)
-        btnBack = findViewById(R.id.btnBack)
         goalDescription = findViewById(R.id.goalDescription)
         goalStartDate = findViewById(R.id.goalStartDate)
         goalEndDate = findViewById(R.id.goalEndDate)
@@ -46,7 +44,6 @@ class PerformanceDataActivity : AppCompatActivity() {
         goalStartDate.setOnClickListener { pickDate(true) }
         goalEndDate.setOnClickListener { pickDate(false) }
         btnSaveGoal.setOnClickListener { saveGoal() }
-        btnBack.setOnClickListener { finish() }
     }
 
     private fun pickDate(isStartDate: Boolean) {

@@ -14,7 +14,6 @@ class FeedbackSubmissionActivity : AppCompatActivity() {
     private lateinit var etFeedback: EditText
     private lateinit var ratingBar: RatingBar
     private lateinit var btnSubmitFeedback: Button
-    private lateinit var btnBack: Button
     private lateinit var feedbackTable: TableLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,16 +28,10 @@ class FeedbackSubmissionActivity : AppCompatActivity() {
         etFeedback = findViewById(R.id.etFeedback)
         ratingBar = findViewById(R.id.ratingBar)
         btnSubmitFeedback = findViewById(R.id.btnSubmitFeedback)
-        btnBack = findViewById(R.id.btnBack)
         feedbackTable = findViewById(R.id.feedbackTable)
 
         // Load existing feedback
         loadFeedback()
-
-        // Back button functionality
-        btnBack.setOnClickListener {
-            onBackPressed()
-        }
 
         // Submit feedback functionality
         btnSubmitFeedback.setOnClickListener {

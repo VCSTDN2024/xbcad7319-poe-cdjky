@@ -15,18 +15,22 @@
     <color name="ripple_color">#1F1976D2</color>
 
     <!-- Gradient Colors -->
-    <color name="gradientBlueStart">#2196F3</color>
-    <color name="gradientBlueEnd">#1976D2</color>
+    <color name="gradientBlueStart">#008EFF</color>
+    <color name="gradientBlueEnd">#004D99</color>
 
-    <color name="gradientPurpleStart">#9C27B0</color>
-    <color name="gradientPurpleEnd">#7B1FA2</color>
+    <color name="gradientPurpleStart">#8733FD</color>
+    <color name="gradientPurpleEnd">#270057</color>
 
-    <color name="gradientGreenStart">#4CAF50</color>
-    <color name="gradientGreenEnd">#388E3C</color>
+    <color name="gradientGreenStart">#00FF0A</color>
+    <color name="gradientGreenEnd">#00950B</color>
 
     <color name="gradientOrangeStart">#FF9800</color>
-    <color name="gradientOrangeEnd">#F57C00</color>
+    <color name="gradientOrangeEnd">#A05100</color>
 
-    <color name="gradientRedStart">#F44336</color>
-    <color name="gradientRedEnd">#D32F2F</color>
+    <color name="gradientRedStart">#FF3A2B</color>
+    <color name="gradientRedEnd">#FF0000</color>
+
+    <color name="gradientYellowStart">#FFFF00</color>
+    <color name="gradientYellowEnd">#B39600</color>
 </resources>
+

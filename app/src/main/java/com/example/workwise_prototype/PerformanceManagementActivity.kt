@@ -11,9 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class PerformanceManagementActivity : AppCompatActivity() {
 
     private lateinit var tvWelcomeMessage: TextView
-    private lateinit var btnBack: Button
     private lateinit var btnGoals: Button
-    private lateinit var btnPerformanceData: Button
     private lateinit var btnFeedbackSubmission: Button
     private lateinit var btnPersonalPerformance: Button
     private val db = FirebaseFirestore.getInstance()
@@ -29,9 +27,7 @@ class PerformanceManagementActivity : AppCompatActivity() {
 
         // Initialize UI components
         tvWelcomeMessage = findViewById(R.id.tvWelcomeMessage)
-        btnBack = findViewById(R.id.btnBack)
         btnGoals = findViewById(R.id.btnGoals)
-        btnPerformanceData = findViewById(R.id.btnPerformanceData)
         btnFeedbackSubmission = findViewById(R.id.btnFeedbackSubmission)
         btnPersonalPerformance = findViewById(R.id.btnPersonalPerformance)
 
@@ -64,15 +60,11 @@ class PerformanceManagementActivity : AppCompatActivity() {
     }
 
     private fun setupFeatureButtons() {
-        btnBack.setOnClickListener { finish() }
 
         btnGoals.setOnClickListener {
             startActivity(Intent(this, PerformanceActivity::class.java))
         }
 
-        btnPerformanceData.setOnClickListener {
-            startActivity(Intent(this, PerformanceDataActivity::class.java))
-        }
 
         btnFeedbackSubmission.setOnClickListener {
             startActivity(Intent(this, FeedbackSubmissionActivity::class.java))

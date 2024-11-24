@@ -1,13 +1,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@drawable/gradient_green"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
         <!-- Profile Section -->
         <LinearLayout
@@ -15,7 +16,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center_horizontal"
-            android:paddingBottom="24dp">
+            android:paddingBottom="24dp"
+            android:background="@drawable/gradient_green"
+            android:elevation="4dp"
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/profile_picture"
@@ -23,7 +27,8 @@
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/profile"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/gradient_grid_background" />
 
             <TextView
                 android:id="@+id/employee_name"
@@ -44,108 +49,85 @@
                 android:textColor="@android:color/black" />
         </LinearLayout>
 
-        <!-- Performance Score -->
+        <!-- Add Goal Section -->
+
+        <!-- Back Button -->
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="85dp"
-            android:layout_marginBottom="24dp"
-            android:background="@android:color/holo_green_light"
-            android:gravity="center_horizontal"
+            android:layout_height="425dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/card_background"
+            android:elevation="4dp"
+            android:orientation="vertical"
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/performance_score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Avg. Score: N/A"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginBottom="8dp"
+                android:text="Set a New Goal"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/performance_status"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/goalDescription"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="N/A"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/input_field_background"
+                android:hint="Enter your goal"
+                android:inputType="text"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/goalStartDate"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/input_field_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:hint="Select Start Date"
+                android:padding="12dp"
+                android:text="Select Start Date" />
+
+            <TextView
+                android:id="@+id/goalEndDate"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/input_field_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:hint="Select End Date"
+                android:padding="12dp"
+                android:text="Select End Date" />
+
+            <EditText
+                android:id="@+id/goalHours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/input_field_background"
+                android:hint="Enter hours (e.g., 4)"
+                android:inputType="numberDecimal"
+                android:padding="12dp" />
+
+            <Button
+                android:id="@+id/btnSaveGoal"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:backgroundTint="@color/gradientPurpleEnd"
+                android:elevation="4dp"
+                android:padding="12dp"
+                android:text="Save Goal"
                 android:textColor="@android:color/white"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
-        <!-- Add Goal Section -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Set a New Goal"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/goalDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter your goal"
-            android:inputType="text"
-            android:background="@android:color/darker_gray"
-            android:padding="12dp"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/goalStartDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Select Start Date"
-            android:text="Select Start Date"
-            android:background="@android:color/darker_gray"
-            android:gravity="center_vertical"
-            android:padding="12dp"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
-            android:focusable="true" />
-
-        <TextView
-            android:id="@+id/goalEndDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Select End Date"
-            android:text="Select End Date"
-            android:background="@android:color/darker_gray"
-            android:gravity="center_vertical"
-            android:padding="12dp"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
-            android:focusable="true" />
-
-        <EditText
-            android:id="@+id/goalHours"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter hours (e.g., 4)"
-            android:inputType="numberDecimal"
-            android:background="@android:color/darker_gray"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp" />
-
-        <Button
-            android:id="@+id/btnSaveGoal"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginBottom="16dp"
-            android:background="@android:color/black"
-            android:text="Save Goal"
-            android:textColor="@android:color/white" />
-
-        <!-- Back Button -->
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:backgroundTint="@android:color/holo_blue_dark"
-            android:textColor="@android:color/white"
-            android:layout_gravity="start"
-            android:layout_marginBottom="16dp" />
     </LinearLayout>
 </ScrollView>

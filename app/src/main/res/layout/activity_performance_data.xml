@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@drawable/gradient_blue"
     android:padding="16dp">
 
     <LinearLayout
@@ -10,14 +10,6 @@
         android:orientation="vertical">
 
         <!-- Back Button -->
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:backgroundTint="@android:color/holo_blue_light"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="16dp" />
 
         <!-- Title -->
         <TextView
@@ -28,99 +20,137 @@
             android:textStyle="bold"
             android:gravity="center"
             android:layout_marginBottom="24dp"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/white" />
 
-        <!-- Employee Name -->
-        <TextView
+        <!-- Employee Name Section -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Employee Name:"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="8dp" />
+            android:orientation="vertical"
+            android:background="@drawable/card_background"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
 
-        <TextView
-            android:id="@+id/employeeName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Fetching Employee Name"
-            android:padding="12dp"
-            android:textColor="@android:color/black"
-            android:background="@android:color/darker_gray"
-            android:layout_marginBottom="16dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_marginBottom="8dp"
+                android:text="Employee Name"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/employeeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fetching Employee Name"
+                android:padding="12dp"
+                android:background="@drawable/input_field_background"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
 
         <!-- Month Picker -->
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select Month:"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="8dp" />
+            android:orientation="vertical"
+            android:background="@drawable/card_background"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
 
-        <TextView
-            android:id="@+id/monthPicker"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginBottom="16dp"
-            android:background="@android:color/darker_gray"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:hint="Select Month"
-            android:padding="12dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginBottom="8dp"
+                android:text="Select Month"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/monthPicker"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/input_field_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:hint="Select Month"
+                android:padding="12dp" />
+        </LinearLayout>
 
         <!-- Year Picker -->
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select Year:"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="8dp" />
+            android:orientation="vertical"
+            android:background="@drawable/card_background"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
 
-        <TextView
-            android:id="@+id/yearPicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:background="@android:color/darker_gray"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:hint="Select Year"
-            android:padding="12dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:layout_marginBottom="8dp"
+                android:text="Select Year"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/yearPicker"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/input_field_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:hint="Select Year"
+                android:padding="12dp" />
+        </LinearLayout>
 
         <!-- Review of Performance -->
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Review of Performance:"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="8dp" />
+            android:orientation="vertical"
+            android:background="@drawable/card_background"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/performanceReview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Review Details"
-            android:background="@android:color/darker_gray"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:layout_marginBottom="8dp"
+                android:text="Review of Performance"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/performanceReview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Review Details"
+                android:background="@drawable/input_field_background"
+                android:padding="12dp" />
+        </LinearLayout>
 
         <!-- Submit Button -->
         <Button
             android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="67dp"
+            android:backgroundTint="@color/gradientRedStart"
+            android:elevation="4dp"
+            android:padding="12dp"
             android:text="Submit"
-            android:backgroundTint="@android:color/holo_green_light"
             android:textColor="@android:color/white"
-            android:padding="16dp" />
+            android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>

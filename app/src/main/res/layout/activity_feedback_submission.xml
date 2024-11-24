@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@android:color/white"
+    android:background="@drawable/gradient_grey"
     android:padding="16dp">
 
     <LinearLayout
@@ -14,54 +14,47 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="start">
-
-            <Button
-                android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Back"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="@android:color/holo_blue_dark"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
+            android:gravity="start"
+            android:layout_marginBottom="16dp"/>
 
         <!-- Header Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@android:color/holo_blue_light"
+            android:background="@drawable/gradient_purple"
             android:padding="16dp"
-            android:elevation="4dp">
+            android:elevation="8dp"
+            android:layout_marginBottom="24dp">
 
             <TextView
                 android:id="@+id/tvFeedbackTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Feedback"
+                android:text="Feedback Management"
                 android:textColor="@android:color/white"
                 android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Feedback List Section -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="155dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/gradient_purple"
+            android:elevation="4dp"
             android:orientation="vertical"
             android:padding="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:text="Submitted Feedback"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 android:textColor="@android:color/black"
-                android:layout_marginBottom="8dp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TableLayout
                 android:id="@+id/feedbackTable"
@@ -71,116 +64,34 @@
 
                 <!-- Table Header -->
                 <TableRow>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="8dp"
                         android:text="Employee"
-                        android:padding="8dp"
+                        android:textColor="@color/gradientBlueStart"
                         android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="8dp"
                         android:text="Feedback"
-                        android:padding="8dp"
+                        android:textColor="@color/gradientBlueStart"
                         android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rating"
                         android:padding="8dp"
+                        android:text="Rating"
+                        android:textColor="@color/gradientBlueStart"
                         android:textStyle="bold" />
                 </TableRow>
 
                 <!-- Feedback Rows -->
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cian Brink"
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Excellent teamwork!"
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:padding="8dp" />
-                </TableRow>
-
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Yuvaan Pather"
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Great communication."
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="4"
-                        android:padding="8dp" />
-                </TableRow>
-
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Kayur Betchu"
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Need to improve time management."
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="3"
-                        android:padding="8dp" />
-                </TableRow>
-
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Joshua Reddy"
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Always willing to help!"
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:padding="8dp" />
-                </TableRow>
-
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Dylan Pather"
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Amazing leadership skills."
-                        android:padding="8dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:padding="8dp" />
-                </TableRow>
+                <!-- These can be dynamically generated -->
             </TableLayout>
         </LinearLayout>
 
@@ -189,49 +100,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@drawable/gradient_purple"
             android:padding="16dp"
-            android:background="@android:color/white">
+            android:elevation="4dp">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
+                android:layout_marginBottom="16dp"
                 android:text="Submit New Feedback"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 android:textColor="@android:color/black"
-                android:layout_marginBottom="8dp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/etFeedback"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="65dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/edit_text_background"
                 android:hint="Write your feedback here..."
                 android:padding="12dp"
-                android:background="@android:drawable/edit_text" />
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginBottom="8dp"
                 android:text="Rate Your Feedback"
-                android:layout_marginTop="12dp"
-                android:padding="8dp"
-                android:textSize="16sp" />
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <RatingBar
                 android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
+                android:layout_marginBottom="16dp"
                 android:numStars="5"
-                android:stepSize="1.0"
-                android:layout_marginBottom="16dp" />
+                android:stepSize="1.0" />
 
             <Button
                 android:id="@+id/btnSubmitFeedback"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/gradientPurpleEnd"
+                android:elevation="4dp"
                 android:text="Submit Feedback"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@android:color/holo_blue_dark"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </LinearLayout>

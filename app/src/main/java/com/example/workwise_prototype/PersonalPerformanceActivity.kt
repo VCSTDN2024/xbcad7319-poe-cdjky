@@ -16,8 +16,6 @@ class PersonalPerformanceActivity : AppCompatActivity() {
     private lateinit var avgScore: TextView
     private lateinit var performanceLevel: TextView
     private lateinit var feedbackList: ListView
-    private lateinit var btnBack: Button
-
     private lateinit var loggedInEmployeeId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,12 +34,8 @@ class PersonalPerformanceActivity : AppCompatActivity() {
         avgScore = findViewById(R.id.avgScore)
         performanceLevel = findViewById(R.id.performanceLevel)
         feedbackList = findViewById(R.id.feedbackList)
-        btnBack = findViewById(R.id.btnBack)
 
-        // Back Button Functionality
-        btnBack.setOnClickListener {
-            finish()
-        }
+
 
         // Fetch and Populate Data
         fetchUserDetails()

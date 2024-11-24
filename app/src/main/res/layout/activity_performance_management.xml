@@ -1,35 +1,20 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/gradient_blue">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Back Button -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="start">
-
-            <Button
-                android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Back"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="@android:color/holo_blue_dark"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
         <!-- Header Section -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_light"
+            android:layout_height="111dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/gradient_purple"
             android:elevation="4dp"
             android:orientation="vertical"
             android:padding="16dp">
@@ -43,12 +28,10 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <!-- Welcome Message -->
             <TextView
                 android:id="@+id/tvWelcomeMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
                 android:text="Welcome, Employee!"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
@@ -58,56 +41,49 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/card_background"
+            android:elevation="4dp"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:layout_marginTop="16dp"
-            android:gravity="center_horizontal">
+            android:padding="16dp">
 
             <!-- Goals Button -->
             <Button
                 android:id="@+id/btnGoals"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="@color/gradientBlueEnd"
+                android:elevation="4dp"
+                android:padding="16dp"
                 android:text="Goals"
-                android:backgroundTint="@android:color/holo_green_dark"
                 android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:padding="16dp" />
-
-            <!-- Performance Data Button -->
-            <Button
-                android:id="@+id/btnPerformanceData"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="Performance Data"
-                android:backgroundTint="@android:color/holo_orange_dark"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:padding="16dp" />
+                android:textSize="18sp" />
 
             <!-- Feedback Submission Button -->
             <Button
                 android:id="@+id/btnFeedbackSubmission"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="@color/gradientGreenStart"
+                android:elevation="4dp"
+                android:padding="16dp"
                 android:text="Feedback Submission"
-                android:backgroundTint="@android:color/holo_red_dark"
                 android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:padding="16dp" />
+                android:textSize="18sp" />
 
             <!-- Personal Performance Button -->
             <Button
                 android:id="@+id/btnPersonalPerformance"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/gradientPurpleEnd"
+                android:elevation="4dp"
+                android:padding="16dp"
                 android:text="Personal Performance"
-                android:backgroundTint="@android:color/holo_blue_dark"
                 android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:padding="16dp" />
+                android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

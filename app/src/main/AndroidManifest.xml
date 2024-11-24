@@ -82,10 +82,6 @@
             android:exported="false"
             android:parentActivityName=".PerformanceManagementActivity" />
         <activity
-            android:name=".PerformanceDataActivity"
-            android:exported="false"
-            android:parentActivityName=".PerformanceManagementActivity" />
-        <activity
             android:name=".FeedbackSubmissionActivity"
             android:exported="false"
             android:parentActivityName=".PerformanceManagementActivity" />
