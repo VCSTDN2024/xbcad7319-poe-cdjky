@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@android:color/white">
+    android:background="@drawable/gradient_green">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,9 +15,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@android:color/holo_blue_light"
+            android:background="@drawable/gradient_green"
             android:padding="16dp"
-            android:elevation="4dp">
+            android:elevation="4dp"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -26,32 +27,66 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:gravity="center_horizontal" />
+                android:gravity="center" />
         </LinearLayout>
 
         <!-- Monthly Hours Input -->
-        <EditText
-            android:id="@+id/etMonthlyHours"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Monthly Hours"
-            android:inputType="numberDecimal"
-            android:layout_marginTop="24dp"
-            android:padding="12dp"
-            android:background="@drawable/edit_text_background"
-            android:textColor="@android:color/black" />
+            android:orientation="vertical"
+            android:background="@drawable/card_background"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter Monthly Hours"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etMonthlyHours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="e.g., 160"
+                android:inputType="numberDecimal"
+                android:padding="12dp"
+                android:background="@drawable/input_field_background"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
 
         <!-- Overtime Hours Input -->
-        <EditText
-            android:id="@+id/etOvertimeHours"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Overtime Hours (Optional)"
-            android:inputType="numberDecimal"
-            android:layout_marginTop="16dp"
-            android:padding="12dp"
-            android:background="@drawable/edit_text_background"
-            android:textColor="@android:color/black" />
+            android:orientation="vertical"
+            android:background="@drawable/card_background"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter Overtime Hours (Optional)"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etOvertimeHours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="e.g., 10"
+                android:inputType="numberDecimal"
+                android:padding="12dp"
+                android:background="@drawable/input_field_background"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
 
         <!-- Submit Hours Button -->
         <Button
@@ -60,10 +95,11 @@
             android:layout_height="wrap_content"
             android:text="Submit Hours"
             android:layout_marginTop="24dp"
-            android:backgroundTint="@android:color/holo_blue_dark"
+            android:backgroundTint="@color/gradientBlueStart"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:elevation="4dp" />
 
         <!-- Back Button -->
         <Button
@@ -72,9 +108,10 @@
             android:layout_height="wrap_content"
             android:text="Back"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@android:color/holo_blue_light"
+            android:backgroundTint="@color/gradientBlueStart"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:elevation="4dp" />
     </LinearLayout>
 </ScrollView>

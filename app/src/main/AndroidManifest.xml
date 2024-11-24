@@ -51,7 +51,8 @@
         <!-- Attendance -->
         <activity
             android:name=".AttendanceActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".HomeActivity"/>
 
         <!-- Payroll -->
         <activity
@@ -64,10 +65,6 @@
             android:parentActivityName=".PayrollActivity" />
         <activity
             android:name=".BonusesActivity"
-            android:exported="false"
-            android:parentActivityName=".PayrollActivity" />
-        <activity
-            android:name=".CompensationActivity"
             android:exported="false"
             android:parentActivityName=".PayrollActivity" />
         <activity

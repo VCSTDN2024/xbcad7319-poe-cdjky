@@ -3,7 +3,6 @@ package com.example.workwise_prototype
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -73,7 +72,7 @@ class HomeActivity : AppCompatActivity() {
     private fun setupClickListeners() {
         val navigationMap = mapOf(
             R.id.employeeRecords to EmployeeRecordsActivity::class.java,
-            R.id.attendance to AttendanceActivity::class.java,
+            R.id.attendance to AttendanceActivity::class.java, // This must work!
             R.id.payroll to PayrollActivity::class.java,
             R.id.performance to PerformanceManagementActivity::class.java,
             R.id.training to ViewCourseActivity::class.java,

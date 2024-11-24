@@ -46,7 +46,7 @@
     <!-- Grid Layout for Features -->
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="669dp"
+        android:layout_height="652dp"
         android:background="@color/special_gray"
         android:columnCount="2"
         android:padding="16dp"

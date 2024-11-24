@@ -16,7 +16,6 @@ class PayrollActivity : AppCompatActivity() {
     private lateinit var tvPayrollUserName: TextView
     private lateinit var btnPayslips: Button
     private lateinit var btnBonuses: Button
-    private lateinit var btnCompensation: Button
     private lateinit var btnHoursWorked: Button
 
     private var actualEmployeeId: String? = null
@@ -37,7 +36,6 @@ class PayrollActivity : AppCompatActivity() {
         tvPayrollUserName = findViewById(R.id.tvPayrollUserName)
         btnPayslips = findViewById(R.id.btnPayslips)
         btnBonuses = findViewById(R.id.btnBonuses)
-        btnCompensation = findViewById(R.id.btnCompensation)
         btnHoursWorked = findViewById(R.id.btnHoursWorked)
 
         // Fetch and display employee name
@@ -50,10 +48,6 @@ class PayrollActivity : AppCompatActivity() {
 
         btnBonuses.setOnClickListener {
             startActivity(Intent(this, BonusesActivity::class.java))
-        }
-
-        btnCompensation.setOnClickListener {
-            startActivity(Intent(this, CompensationActivity::class.java))
         }
 
         btnHoursWorked.setOnClickListener {
