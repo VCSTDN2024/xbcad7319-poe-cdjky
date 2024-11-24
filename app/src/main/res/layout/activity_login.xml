@@ -7,8 +7,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-
-
     <!-- Login Text -->
     <ImageView
         android:id="@+id/imageView3"
@@ -60,14 +58,4 @@
         android:backgroundTint="#000000"
         android:text="Log In"
         android:textColor="@android:color/white" />
-
-    <!-- Sign-Up Option -->
-    <TextView
-        android:id="@+id/tvSignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Don't have an account? Sign Up" />
-
-
 </LinearLayout>

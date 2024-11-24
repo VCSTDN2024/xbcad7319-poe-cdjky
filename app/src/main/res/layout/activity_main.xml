@@ -8,15 +8,13 @@
     android:padding="16dp">
 
     <!-- Placeholder for Logo -->
-
-    <!-- Welcome Text -->
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="314dp"
         app:srcCompat="@drawable/work_wise_hr_management" />
 
+    <!-- Welcome Text -->
     <TextView
         android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
@@ -26,22 +24,13 @@
         android:text="Welcome To WorkWise"
         android:textSize="24sp" />
 
-    <!-- Get Started Button -->
+    <!-- Login Button -->
     <Button
-        android:id="@+id/btnGetStarted"
+        android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:backgroundTint="#000000"
-        android:text="Get Started"
+        android:text="Login"
         android:textColor="@android:color/white" />
-
-    <!-- Option to Log In -->
-    <TextView
-        android:id="@+id/tvAlreadyHaveAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Do you have an account? Log In" />
-
 </LinearLayout>

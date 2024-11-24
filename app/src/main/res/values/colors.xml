@@ -14,4 +14,19 @@
     <color name="icon_tint">#1976D2</color>
     <color name="ripple_color">#1F1976D2</color>
 
+    <!-- Gradient Colors -->
+    <color name="gradientBlueStart">#2196F3</color>
+    <color name="gradientBlueEnd">#1976D2</color>
+
+    <color name="gradientPurpleStart">#9C27B0</color>
+    <color name="gradientPurpleEnd">#7B1FA2</color>
+
+    <color name="gradientGreenStart">#4CAF50</color>
+    <color name="gradientGreenEnd">#388E3C</color>
+
+    <color name="gradientOrangeStart">#FF9800</color>
+    <color name="gradientOrangeEnd">#F57C00</color>
+
+    <color name="gradientRedStart">#F44336</color>
+    <color name="gradientRedEnd">#D32F2F</color>
 </resources>

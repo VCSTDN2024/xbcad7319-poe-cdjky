@@ -21,7 +21,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
     private lateinit var btnLogin: Button
-    private lateinit var tvSignUp: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +34,6 @@ class LoginActivity : AppCompatActivity() {
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
         btnLogin = findViewById(R.id.btnLogin)
-        tvSignUp = findViewById(R.id.tvSignUp)
 
         btnLogin.setOnClickListener {
             val email = etEmail.text.toString().trim()
@@ -44,10 +42,6 @@ class LoginActivity : AppCompatActivity() {
             if (validateInput(email, password)) {
                 loginUser(email, password)
             }
-        }
-
-        tvSignUp.setOnClickListener {
-            startActivity(Intent(this, SignUpActivity::class.java))
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.workwise_prototype
 
 import android.content.Intent
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -8,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.firebase.firestore.FirebaseFirestore
 
 class HomeActivity : AppCompatActivity() {
@@ -27,6 +29,9 @@ class HomeActivity : AppCompatActivity() {
         // Initialize UI components
         initializeUI()
 
+        // Setup gradient backgrounds
+        setupGradients()
+
         // Setup click listeners
         setupClickListeners()
 
@@ -44,8 +49,28 @@ class HomeActivity : AppCompatActivity() {
         notificationIcon.setOnClickListener { handleNotificationsClick() }
     }
 
+    private fun setupGradients() {
+        applyGradient(R.id.employeeRecords, R.color.gradientBlueStart, R.color.gradientBlueEnd)
+        applyGradient(R.id.attendance, R.color.gradientPurpleStart, R.color.gradientPurpleEnd)
+        applyGradient(R.id.payroll, R.color.gradientGreenStart, R.color.gradientGreenEnd)
+        applyGradient(R.id.performance, R.color.gradientOrangeStart, R.color.gradientOrangeEnd)
+        applyGradient(R.id.training, R.color.gradientRedStart, R.color.gradientRedEnd)
+        applyGradient(R.id.jobs, R.color.gradientBlueStart, R.color.gradientBlueEnd)
+    }
+
+    private fun applyGradient(viewId: Int, startColorRes: Int, endColorRes: Int) {
+        val view = findViewById<LinearLayout>(viewId)
+        val startColor = ContextCompat.getColor(this, startColorRes)
+        val endColor = ContextCompat.getColor(this, endColorRes)
+        val gradient = GradientDrawable(
+            GradientDrawable.Orientation.LEFT_RIGHT,
+            intArrayOf(startColor, endColor)
+        )
+        gradient.cornerRadius = 16f
+        view.background = gradient
+    }
+
     private fun setupClickListeners() {
-        // Create a map of view IDs to their corresponding activities
         val navigationMap = mapOf(
             R.id.employeeRecords to EmployeeRecordsActivity::class.java,
             R.id.attendance to AttendanceActivity::class.java,
@@ -55,12 +80,9 @@ class HomeActivity : AppCompatActivity() {
             R.id.jobs to JobsAndOnboardingActivity::class.java
         )
 
-        // Set up click listeners for all feature cards
         navigationMap.forEach { (viewId, activityClass) ->
             findViewById<LinearLayout>(viewId).apply {
                 setOnClickListener {
-                    // Add ripple effect
-                    it.isPressed = true
                     navigateToActivity(activityClass)
                 }
             }
@@ -86,7 +108,7 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
             .addOnFailureListener { e ->
-                showError("Failed to fetch user data: ${e.message}")
+                showToast("Failed to fetch user data: ${e.message}")
             }
     }
 
@@ -105,12 +127,10 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun handleProfileClick() {
-        // Implement profile click action
         showToast("Profile feature coming soon!")
     }
 
     private fun handleNotificationsClick() {
-        // Implement notifications click action
         showToast("Notifications feature coming soon!")
     }
 
@@ -125,14 +145,7 @@ class HomeActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun showError(message: String) {
-        showToast(message)
-    }
-
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-
-    // Optional: Add animation overrides for better transitions
-
 }

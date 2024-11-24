@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.workwise_prototype">
+
     <!-- Required permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,39 +13,47 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WorkWise_Prototype">
+
+
         <activity
             android:name=".JobsAndOnboardingActivity"
             android:exported="false" />
-        <activity
-            android:name=".JobsandOnboarding"
-            android:exported="false" /> <!-- Main -->
+
+        <!-- Main -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Login and Signup -->
-        <activity
-            android:name=".SignUpActivity"
-            android:exported="false" />
+        </activity>
+
+        <!-- Login -->
+
         <activity
             android:name=".LoginActivity"
-            android:exported="false" /> <!-- Home -->
+            android:exported="false" />
+
+        <!-- Home -->
         <activity
             android:name=".HomeActivity"
-            android:exported="false" /> <!-- Employee Management -->
+            android:exported="false" />
+
+        <!-- Employee Management -->
         <activity
             android:name=".EmployeeRecordsActivity"
             android:exported="false" />
         <activity
             android:name=".EmployeeDetailsActivity"
-            android:exported="false" /> <!-- Attendance -->
+            android:exported="false" />
+
+        <!-- Attendance -->
         <activity
             android:name=".AttendanceActivity"
-            android:exported="false" /> <!-- Payroll -->
+            android:exported="false" />
+
+        <!-- Payroll -->
         <activity
             android:name=".PayrollActivity"
             android:exported="false"
@@ -64,7 +73,9 @@
         <activity
             android:name=".HoursWorkedActivity"
             android:exported="false"
-            android:parentActivityName=".PayrollActivity" /> <!-- Performance Management -->
+            android:parentActivityName=".PayrollActivity" />
+
+        <!-- Performance Management -->
         <activity
             android:name=".PerformanceManagementActivity"
             android:exported="false"
@@ -84,10 +95,14 @@
         <activity
             android:name=".PersonalPerformanceActivity"
             android:exported="false"
-            android:parentActivityName=".PerformanceManagementActivity" /> <!-- Leave Request Form -->
+            android:parentActivityName=".PerformanceManagementActivity" />
+
+        <!-- Leave Request Form -->
         <activity
             android:name=".LeaveRequestFormActivity"
-            android:exported="false" /> <!-- Training/Course Menu -->
+            android:exported="false" />
+
+        <!-- Training/Course Menu -->
         <activity
             android:name=".CourseMenuActivity"
             android:exported="false"
@@ -103,13 +118,19 @@
         <activity
             android:name=".CourseDetailsActivity"
             android:exported="false"
-            android:parentActivityName=".ViewCourseActivity" /> <!-- Notifications -->
+            android:parentActivityName=".ViewCourseActivity" />
+
+        <!-- Notifications -->
         <activity
             android:name=".NotificationsActivity"
-            android:exported="false" /> <!-- Settings -->
+            android:exported="false" />
+
+        <!-- Settings -->
         <activity
             android:name=".SettingsActivity"
-            android:exported="false" /> <!-- Self-Service -->
+            android:exported="false" />
+
+        <!-- Self-Service -->
         <activity
             android:name=".SelfServiceActivity"
             android:exported="false" />

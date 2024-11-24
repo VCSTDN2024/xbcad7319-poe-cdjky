@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_rowWeight="1"
+    android:layout_columnWeight="1"
+    android:layout_margin="8dp"
+    android:background="@drawable/feature_card_background"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- Icon -->
+    <ImageView
+        android:id="@+id/cardIcon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_placeholder"
+        android:contentDescription="Feature Icon" />
+
+    <!-- Label -->
+    <TextView
+        android:id="@+id/cardLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Feature Name"
+        android:textColor="#212121"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+</LinearLayout>
