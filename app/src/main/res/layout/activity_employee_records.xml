@@ -1,13 +1,16 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AC9B9B"
+    android:background="@drawable/gradient_blue"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/card_background"
+        android:elevation="8dp"
+        android:padding="16dp">
 
         <!-- Welcome Message -->
         <TextView
@@ -15,48 +18,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Welcome, Employee!"
-            android:textSize="20sp"
-            android:padding="8dp"
+            android:textSize="22sp"
+            android:padding="12dp"
             android:textColor="@android:color/white"
-            android:background="#7A7575" />
+            android:background="@drawable/gradient_purple"
+            android:gravity="center"
+            android:textStyle="bold" />
 
         <!-- Input Fields for Employee Details -->
         <EditText
             android:id="@+id/etEmployeeName"
             android:layout_width="match_parent"
-            android:layout_height="57dp"
+            android:layout_height="wrap_content"
             android:hint="Full Name"
-            android:padding="10dp" />
+            android:padding="12dp"
+            android:background="@drawable/input_field_background" />
 
         <Spinner
             android:id="@+id/spinnerRole"
             android:layout_width="match_parent"
-            android:layout_height="39dp"
+            android:layout_height="56dp"
             android:layout_marginTop="8dp"
-            android:entries="@array/role_options" />
+            android:background="@drawable/input_field_background"
+            android:padding="8dp"
+            android:popupBackground="@android:color/white" />
 
         <Spinner
             android:id="@+id/spinnerDepartment"
             android:layout_width="match_parent"
-            android:layout_height="39dp"
+            android:layout_height="53dp"
             android:layout_marginTop="8dp"
-            android:entries="@array/department_options" />
+            android:background="@drawable/input_field_background"
+            android:padding="8dp"
+            android:popupBackground="@android:color/white" />
 
         <EditText
             android:id="@+id/etEmployeePhone"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:hint="Contact Number"
             android:inputType="phone"
-            android:padding="10dp" />
+            android:padding="12dp"
+            android:background="@drawable/input_field_background" />
 
         <EditText
             android:id="@+id/etEmployeeEmail"
             android:layout_width="match_parent"
-            android:layout_height="57dp"
+            android:layout_height="wrap_content"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:padding="10dp" />
+            android:padding="12dp"
+            android:background="@drawable/input_field_background" />
 
         <!-- Save Button -->
         <Button
@@ -64,26 +76,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Save"
-            android:backgroundTint="@android:color/holo_green_dark"
+            android:backgroundTint="@color/gradientGreenStart"
             android:textColor="@android:color/white"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:elevation="6dp" />
 
         <!-- List of Employees -->
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="57dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:padding="8dp"
             android:text="Employee List"
-            android:textSize="18sp" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background ="colors/black"/>
 
         <ListView
             android:id="@+id/lvEmployeeResults"
             android:layout_width="match_parent"
-            android:layout_height="724dp"
+            android:layout_height="wrap_content"
             android:divider="@android:color/darker_gray"
             android:dividerHeight="1dp"
-            android:padding="8dp" />
-
+            android:padding="8dp"
+            android:background="@drawable/listview_background" />
     </LinearLayout>
 </ScrollView>

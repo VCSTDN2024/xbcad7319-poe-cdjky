@@ -46,12 +46,12 @@
     <!-- Grid Layout for Features -->
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="657dp"
+        android:layout_height="669dp"
+        android:background="@color/special_gray"
         android:columnCount="2"
         android:padding="16dp"
         android:rowCount="3"
-        android:rowOrderPreserved="true"
-        android:background="@color/special_gray">
+        android:rowOrderPreserved="true">
 
         <!-- Employee Records -->
         <LinearLayout
@@ -221,7 +221,7 @@
             <ImageView
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:src="@drawable/leave" />
+                android:src="@drawable/ic_self_service" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -232,7 +232,6 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
-
     </GridLayout>
 
 </LinearLayout>
