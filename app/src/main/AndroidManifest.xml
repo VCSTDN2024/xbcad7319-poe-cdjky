@@ -53,6 +53,11 @@
             android:name=".AttendanceActivity"
             android:exported="false"
             android:parentActivityName=".HomeActivity"/>
+        <!-- Leave Request Form -->
+        <activity
+            android:name=".LeaveRequestFormActivity"
+            android:exported="false"
+            android:parentActivityName=".AttendanceActivity" />
 
         <!-- Payroll -->
         <activity
@@ -77,10 +82,12 @@
             android:name=".PerformanceManagementActivity"
             android:exported="false"
             android:parentActivityName=".HomeActivity" />
+
         <activity
             android:name=".PerformanceActivity"
             android:exported="false"
             android:parentActivityName=".PerformanceManagementActivity" />
+
         <activity
             android:name=".FeedbackSubmissionActivity"
             android:exported="false"
@@ -90,10 +97,6 @@
             android:exported="false"
             android:parentActivityName=".PerformanceManagementActivity" />
 
-        <!-- Leave Request Form -->
-        <activity
-            android:name=".LeaveRequestFormActivity"
-            android:exported="false" />
 
         <!-- Training/Course Menu -->
         <activity

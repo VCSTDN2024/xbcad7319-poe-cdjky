@@ -7,8 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:orientation="vertical">
 
         <!-- Profile Section -->
         <LinearLayout
@@ -16,10 +15,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center_horizontal"
-            android:paddingBottom="24dp"
-            android:background="@drawable/gradient_green"
-            android:elevation="4dp"
-            android:padding="16dp">
+            android:background="@drawable/card_background"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
 
             <ImageView
                 android:id="@+id/profile_picture"
@@ -27,8 +25,7 @@
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/profile"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/gradient_grid_background" />
+                android:layout_marginBottom="8dp" />
 
             <TextView
                 android:id="@+id/employee_name"
@@ -39,23 +36,12 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="4dp"
                 android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/job_role"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fetching Role..."
-                android:textSize="16sp"
-                android:textColor="@android:color/black" />
         </LinearLayout>
 
         <!-- Add Goal Section -->
-
-        <!-- Back Button -->
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="425dp"
+            android:layout_height="397dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/card_background"
             android:elevation="4dp"
@@ -64,7 +50,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="36dp"
+                android:layout_height="38dp"
                 android:layout_marginBottom="8dp"
                 android:text="Set a New Goal"
                 android:textColor="@android:color/black"
@@ -84,28 +70,26 @@
             <TextView
                 android:id="@+id/goalStartDate"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/input_field_background"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:hint="Select Start Date"
-                android:padding="12dp"
-                android:text="Select Start Date" />
-
-            <TextView
-                android:id="@+id/goalEndDate"
-                android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/input_field_background"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center_vertical"
+                android:hint="Select Start Date"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/goalEndDate"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/input_field_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
                 android:hint="Select End Date"
-                android:padding="12dp"
-                android:text="Select End Date" />
+                android:padding="12dp" />
 
             <EditText
                 android:id="@+id/goalHours"
@@ -120,14 +104,11 @@
             <Button
                 android:id="@+id/btnSaveGoal"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="61dp"
                 android:backgroundTint="@color/gradientPurpleEnd"
-                android:elevation="4dp"
                 android:padding="12dp"
                 android:text="Save Goal"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:textColor="@android:color/white" />
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

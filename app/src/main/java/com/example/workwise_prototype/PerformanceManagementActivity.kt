@@ -60,11 +60,13 @@ class PerformanceManagementActivity : AppCompatActivity() {
     }
 
     private fun setupFeatureButtons() {
-
         btnGoals.setOnClickListener {
-            startActivity(Intent(this, PerformanceActivity::class.java))
+            try {
+                startActivity(Intent(this, PerformanceActivity::class.java))
+            } catch (e: Exception) {
+                Toast.makeText(this, "Error navigating to Goals: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
         }
-
 
         btnFeedbackSubmission.setOnClickListener {
             startActivity(Intent(this, FeedbackSubmissionActivity::class.java))

@@ -2,24 +2,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/gradient_blue">
 
-    <!-- Back Button -->
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@android:color/holo_blue_dark"
-        android:textColor="@android:color/white" />
-
-    <!-- ListView for Courses -->
-    <ListView
-        android:id="@+id/lvCourses"
+    <!-- Header Section -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp" />
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/gradient_purple"
+        android:elevation="8dp"
+        android:layout_marginBottom="16dp">
 
+        <TextView
+            android:id="@+id/tvCourseHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Courses"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- ListView Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="583dp"
+        android:background="@drawable/card_background"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Available Courses"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/lvCourses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp"
+            android:elevation="4dp" />
+    </LinearLayout>
 </LinearLayout>

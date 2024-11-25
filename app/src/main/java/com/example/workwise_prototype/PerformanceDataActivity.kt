@@ -14,7 +14,6 @@ class PerformanceDataActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private lateinit var tvEmployeeName: TextView
-    private lateinit var tvJobRole: TextView
     private lateinit var btnSaveGoal: Button
     private lateinit var goalDescription: EditText
     private lateinit var goalStartDate: TextView
@@ -32,7 +31,6 @@ class PerformanceDataActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
         tvEmployeeName = findViewById(R.id.employee_name)
-        tvJobRole = findViewById(R.id.job_role)
         btnSaveGoal = findViewById(R.id.btnSaveGoal)
         goalDescription = findViewById(R.id.goalDescription)
         goalStartDate = findViewById(R.id.goalStartDate)
@@ -80,7 +78,6 @@ class PerformanceDataActivity : AppCompatActivity() {
             db.collection("actual_employees").document(it).get()
                 .addOnSuccessListener { document ->
                     tvEmployeeName.text = document.getString("FullName") ?: "Unknown"
-                    tvJobRole.text = document.getString("Role") ?: "N/A"
                 }
                 .addOnFailureListener {
                     Toast.makeText(this, "Failed to fetch user details.", Toast.LENGTH_SHORT).show()

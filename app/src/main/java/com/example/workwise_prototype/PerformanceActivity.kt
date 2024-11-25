@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
@@ -18,7 +17,6 @@ class PerformanceActivity : AppCompatActivity() {
 
     // UI Components
     private lateinit var tvEmployeeName: TextView
-    private lateinit var tvJobRole: TextView
     private lateinit var btnSaveGoal: Button
     private lateinit var goalDescription: EditText
     private lateinit var goalStartDate: TextView
@@ -36,7 +34,6 @@ class PerformanceActivity : AppCompatActivity() {
 
         // UI Components
         tvEmployeeName = findViewById(R.id.employee_name)
-        tvJobRole = findViewById(R.id.job_role)
         btnSaveGoal = findViewById(R.id.btnSaveGoal)
         goalDescription = findViewById(R.id.goalDescription)
         goalStartDate = findViewById(R.id.goalStartDate)
@@ -62,7 +59,6 @@ class PerformanceActivity : AppCompatActivity() {
 
         // Button click listeners
         btnSaveGoal.setOnClickListener { saveGoal() }
-
     }
 
     // Function to fetch and display user details
@@ -72,7 +68,6 @@ class PerformanceActivity : AppCompatActivity() {
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
                         tvEmployeeName.text = document.getString("FullName") ?: "Unknown"
-                        tvJobRole.text = document.getString("Role") ?: "N/A"
                     } else {
                         Toast.makeText(this, "Employee details not found.", Toast.LENGTH_SHORT).show()
                     }

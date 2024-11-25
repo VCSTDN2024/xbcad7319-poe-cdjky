@@ -71,7 +71,7 @@
             <ImageView
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:src="@drawable/employee_records_proper" />
+                android:src="@drawable/ic_employee" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -101,7 +101,7 @@
             <ImageView
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:src="@drawable/attendance" />
+                android:src="@drawable/ic_attendance" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -131,7 +131,7 @@
             <ImageView
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:src="@drawable/payroll" />
+                android:src="@drawable/ic_payroll" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
             <ImageView
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:src="@drawable/performance" />
+                android:src="@drawable/ic_performance" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -191,7 +191,7 @@
             <ImageView
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:src="@drawable/training" />
+                android:src="@drawable/ic_training" />
 
             <TextView
                 android:layout_width="wrap_content"
