@@ -17,14 +17,16 @@
         <TextView
             android:id="@+id/tvHeader"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:gravity="center"
             android:text="Leave Request Form"
-            android:background="@drawable/gradient_green"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:background="@drawable/gradient_green"
+            android:padding="12dp"
+            android:elevation="4dp" />
 
         <!-- Start Date -->
         <TextView
@@ -33,17 +35,18 @@
             android:layout_height="wrap_content"
             android:text="Start Date:"
             android:textSize="16sp"
-            android:layout_marginBottom="8dp"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="8dp" />
 
         <EditText
             android:id="@+id/etStartDate"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:background="@drawable/input_field_background"
-            android:hint="YYYY-MM-DD"
-            android:inputType="date"
+            android:hint="Select Start Date"
+            android:focusable="false"
+            android:clickable="true"
             android:padding="12dp" />
 
         <!-- End Date -->
@@ -53,17 +56,18 @@
             android:layout_height="wrap_content"
             android:text="End Date:"
             android:textSize="16sp"
-            android:layout_marginBottom="8dp"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="8dp" />
 
         <EditText
             android:id="@+id/etEndDate"
             android:layout_width="match_parent"
-            android:layout_height="69dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:background="@drawable/input_field_background"
-            android:hint="YYYY-MM-DD"
-            android:inputType="date"
+            android:hint="Select End Date"
+            android:focusable="false"
+            android:clickable="true"
             android:padding="12dp" />
 
         <!-- Reason -->
@@ -73,13 +77,13 @@
             android:layout_height="wrap_content"
             android:text="Reason for Leave:"
             android:textSize="16sp"
-            android:layout_marginBottom="8dp"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="8dp" />
 
         <EditText
             android:id="@+id/etReason"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:background="@drawable/input_field_background"
             android:hint="Enter Reason for Leave"
@@ -89,11 +93,11 @@
         <!-- Submit Button -->
         <Button
             android:id="@+id/btnSubmitLeaveRequest"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Submit"
             android:backgroundTint="@android:color/holo_green_dark"
             android:textColor="@android:color/white"
-            android:layout_gravity="center" />
+            android:elevation="4dp" />
     </LinearLayout>
 </ScrollView>

@@ -14,21 +14,33 @@ class JobsAndOnboardingActivity : AppCompatActivity() {
     private lateinit var jobsRecyclerView: RecyclerView
     private val jobsList = mutableListOf<JobPosting>()
     private lateinit var actualEmployeeId: String
-    private lateinit var employeeName: String
-    private lateinit var employeeEmail: String
+    private var employeeName: String = "Unknown"
+    private var employeeEmail: String = "Unknown"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jobs_and_onboarding)
 
+        // Initialize Firestore
         db = FirebaseFirestore.getInstance()
+
+        // Initialize RecyclerView
         jobsRecyclerView = findViewById(R.id.jobsRecyclerView)
 
+        // Retrieve logged-in employee ID from SharedPreferences
         val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
         actualEmployeeId = sharedPreferences.getString("actual_employee_id", null) ?: ""
-        employeeName = sharedPreferences.getString("FullName", "Unknown") ?: "Unknown"
-        employeeEmail = sharedPreferences.getString("Email", "Unknown") ?: "Unknown"
 
+        if (actualEmployeeId.isEmpty()) {
+            Toast.makeText(this, "Error: Employee ID is missing. Please log in again.", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+
+        // Fetch employee details (FullName and Email)
+        fetchEmployeeDetails()
+
+        // Setup RecyclerView and fetch jobs
         setupRecyclerView()
         fetchJobsFromFirestore()
     }
@@ -64,7 +76,28 @@ class JobsAndOnboardingActivity : AppCompatActivity() {
             }
     }
 
+    private fun fetchEmployeeDetails() {
+        db.collection("actual_employees").document(actualEmployeeId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    employeeName = document.getString("FullName") ?: "Unknown"
+                    employeeEmail = document.getString("Email") ?: "Unknown"
+                } else {
+                    Toast.makeText(this, "Failed to fetch employee details.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Error fetching employee details: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
     private fun applyToJob(job: JobPosting) {
+        if (employeeName == "Unknown" || employeeEmail == "Unknown") {
+            Toast.makeText(this, "Error: Employee details not loaded yet. Please try again.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val applicationData = hashMapOf(
             "actual_employee_id" to actualEmployeeId,
             "FullName" to employeeName,
@@ -78,7 +111,7 @@ class JobsAndOnboardingActivity : AppCompatActivity() {
         db.collection("job_applicants")
             .add(applicationData)
             .addOnSuccessListener {
-                Toast.makeText(this, "Applied to ${job.title} successfully!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Successfully applied for ${job.title}.", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Failed to apply: ${e.message}", Toast.LENGTH_SHORT).show()

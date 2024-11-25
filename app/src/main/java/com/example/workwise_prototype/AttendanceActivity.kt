@@ -20,26 +20,30 @@ class AttendanceActivity : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
     private lateinit var loggedInEmployeeId: String
-    private var hasClockedIn = false
+    private lateinit var fullName: String
+    private var currentAttendanceId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_attendance)
 
+        // Initialize UI components
         tvAttendanceTitle = findViewById(R.id.tvAttendanceTitle)
         switchMarkAttendance = findViewById(R.id.switchMarkAttendance)
         btnClockOut = findViewById(R.id.btnClockOut)
         btnLeaveBalances = findViewById(R.id.btnLeaveBalances)
         btnLeaveRequestForm = findViewById(R.id.btnLeaveRequestForm)
 
+        // Retrieve logged-in employee details
         val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
-        loggedInEmployeeId = sharedPreferences.getString("actual_employee_id", "") ?: ""
+        loggedInEmployeeId = sharedPreferences.getString("actual_employee_id", null) ?: ""
 
         if (loggedInEmployeeId.isEmpty()) {
             redirectToLogin()
             return
         }
 
+        fetchEmployeeDetails()
         setupAttendanceSwitch()
         setupClockOutButton()
 
@@ -58,10 +62,27 @@ class AttendanceActivity : AppCompatActivity() {
         finish()
     }
 
+    private fun fetchEmployeeDetails() {
+        db.collection("actual_employees").document(loggedInEmployeeId).get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    fullName = document.getString("FullName") ?: "Employee"
+                    tvAttendanceTitle.text = "Welcome, $fullName"
+                } else {
+                    Toast.makeText(this, "Employee details not found.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error fetching employee details.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
     private fun setupAttendanceSwitch() {
         switchMarkAttendance.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 markAttendance()
+            } else {
+                Toast.makeText(this, "Attendance unmarked.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -70,14 +91,15 @@ class AttendanceActivity : AppCompatActivity() {
         val currentTimestamp = Timestamp.now()
         val attendanceData = hashMapOf(
             "employeeId" to loggedInEmployeeId,
+            "FullName" to fullName,
             "date" to currentTimestamp,
             "status" to "Present"
         )
+
         db.collection("attendance")
-            .document("$loggedInEmployeeId-${currentTimestamp.seconds}")
-            .set(attendanceData)
-            .addOnSuccessListener {
-                hasClockedIn = true
+            .add(attendanceData)
+            .addOnSuccessListener { documentReference ->
+                currentAttendanceId = documentReference.id
                 btnClockOut.isEnabled = true
                 Toast.makeText(this, "Attendance marked successfully.", Toast.LENGTH_SHORT).show()
             }
@@ -89,28 +111,20 @@ class AttendanceActivity : AppCompatActivity() {
 
     private fun setupClockOutButton() {
         btnClockOut.setOnClickListener {
-            if (!hasClockedIn) {
+            if (currentAttendanceId.isNullOrEmpty()) {
                 Toast.makeText(this, "You need to clock in first.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             val clockOutTime = Timestamp.now()
-            db.collection("attendance")
-                .whereEqualTo("employeeId", loggedInEmployeeId)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        db.collection("attendance").document(document.id)
-                            .update("clockOut", clockOutTime)
-                            .addOnSuccessListener {
-                                hasClockedIn = false
-                                btnClockOut.isEnabled = false
-                                Toast.makeText(this, "Clock-out recorded.", Toast.LENGTH_SHORT).show()
-                            }
-                    }
+            db.collection("attendance").document(currentAttendanceId!!)
+                .update("clockOut", clockOutTime)
+                .addOnSuccessListener {
+                    btnClockOut.isEnabled = false
+                    Toast.makeText(this, "Clock-out recorded successfully.", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, "Error updating attendance.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error recording clock-out.", Toast.LENGTH_SHORT).show()
                 }
         }
     }

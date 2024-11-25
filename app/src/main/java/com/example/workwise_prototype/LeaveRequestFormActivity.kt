@@ -1,5 +1,6 @@
 package com.example.workwise_prototype
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -7,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
-import java.text.SimpleDateFormat
 import java.util.*
 
 class LeaveRequestFormActivity : AppCompatActivity() {
@@ -25,20 +25,19 @@ class LeaveRequestFormActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leave_request_form)
 
-        // Initialize UI components
         etStartDate = findViewById(R.id.etStartDate)
         etEndDate = findViewById(R.id.etEndDate)
         etReason = findViewById(R.id.etReason)
         btnSubmitLeaveRequest = findViewById(R.id.btnSubmitLeaveRequest)
 
-        // Retrieve logged-in actual_employee_id
         val sharedPreferences = getSharedPreferences("EmployeePrefs", MODE_PRIVATE)
         loggedInEmployeeId = sharedPreferences.getString("actual_employee_id", null) ?: ""
 
-        // Fetch FullName using actual_employee_id
         fetchEmployeeDetails()
 
-        // Set up Submit button functionality
+        etStartDate.setOnClickListener { showDatePicker(etStartDate) }
+        etEndDate.setOnClickListener { showDatePicker(etEndDate) }
+
         btnSubmitLeaveRequest.setOnClickListener {
             submitLeaveRequest()
         }
@@ -47,15 +46,25 @@ class LeaveRequestFormActivity : AppCompatActivity() {
     private fun fetchEmployeeDetails() {
         db.collection("actual_employees").document(loggedInEmployeeId).get()
             .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
-                    fullName = document.getString("FullName") ?: "Employee"
-                } else {
-                    Toast.makeText(this, "Failed to fetch employee details.", Toast.LENGTH_SHORT).show()
-                }
+                fullName = document.getString("FullName") ?: "Employee"
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Error fetching employee details.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed to fetch employee details.", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun showDatePicker(targetField: EditText) {
+        val calendar = Calendar.getInstance()
+        DatePickerDialog(
+            this,
+            { _, year, month, dayOfMonth ->
+                val selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
+                targetField.setText(selectedDate)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     private fun submitLeaveRequest() {
@@ -64,7 +73,7 @@ class LeaveRequestFormActivity : AppCompatActivity() {
         val reason = etReason.text.toString().trim()
 
         if (startDate.isEmpty() || endDate.isEmpty() || reason.isEmpty()) {
-            Toast.makeText(this, "Please fill out all fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -75,10 +84,8 @@ class LeaveRequestFormActivity : AppCompatActivity() {
             val leaveRequestData = hashMapOf(
                 "actual_employee_id" to loggedInEmployeeId,
                 "FullName" to fullName,
-                "dateRange" to mapOf(
-                    "startDate" to startTimestamp,
-                    "endDate" to endTimestamp
-                ),
+                "startDate" to startTimestamp,
+                "endDate" to endTimestamp,
                 "reason" to reason
             )
 
@@ -96,9 +103,10 @@ class LeaveRequestFormActivity : AppCompatActivity() {
     }
 
     private fun convertDateToTimestamp(dateString: String): Timestamp {
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val date = sdf.parse(dateString) ?: throw IllegalArgumentException("Invalid date format")
-        return Timestamp(date)
+        val parts = dateString.split("-").map { it.toInt() }
+        val calendar = Calendar.getInstance()
+        calendar.set(parts[0], parts[1] - 1, parts[2])
+        return Timestamp(calendar.time)
     }
 
     private fun clearFields() {

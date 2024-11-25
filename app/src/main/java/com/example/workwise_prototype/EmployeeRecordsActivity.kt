@@ -119,12 +119,15 @@ class EmployeeRecordsActivity : AppCompatActivity() {
             .addOnSuccessListener { documents ->
                 employeeList.clear()
                 employeeIds.clear()
+
                 for (document in documents) {
                     val fullName = document.getString("FullName") ?: "Unnamed Employee"
                     val employeeId = document.id
+
                     employeeList.add(fullName)
                     employeeIds.add(employeeId)
                 }
+
                 val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, employeeList)
                 lvEmployeeResults.adapter = adapter
             }
@@ -132,6 +135,7 @@ class EmployeeRecordsActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to load employee list.", Toast.LENGTH_SHORT).show()
             }
     }
+
 
     private fun saveEmployeeDetails() {
         if (loggedInEmployeeId.isEmpty()) {
@@ -148,12 +152,16 @@ class EmployeeRecordsActivity : AppCompatActivity() {
         )
 
         db.collection("actual_employees").document(loggedInEmployeeId)
-            .set(updatedDetails, SetOptions.merge()) // Use merge to update fields without overwriting the document
+            .set(updatedDetails, SetOptions.merge())
             .addOnSuccessListener {
                 Toast.makeText(this, "Employee details updated successfully.", Toast.LENGTH_SHORT).show()
+
+                // Update Employee List Immediately
+                loadEmployeeList()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Failed to update employee details: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
 }

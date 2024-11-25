@@ -1,6 +1,8 @@
 package com.example.workwise_prototype
 
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,10 @@ class EmployeeDetailsActivity : AppCompatActivity() {
     private lateinit var tvEmployeeDepartment: TextView
     private lateinit var tvEmployeePhone: TextView
     private lateinit var tvEmployeeEmail: TextView
+    private lateinit var lvEmployeeResults: ListView
+
+    private val employeeList = mutableListOf<String>()
+    private val employeeIds = mutableListOf<String>()
 
     private lateinit var db: FirebaseFirestore
 
@@ -29,6 +35,7 @@ class EmployeeDetailsActivity : AppCompatActivity() {
         tvEmployeeDepartment = findViewById(R.id.tvEmployeeDepartment)
         tvEmployeePhone = findViewById(R.id.tvEmployeePhone)
         tvEmployeeEmail = findViewById(R.id.tvEmployeeEmail)
+        lvEmployeeResults = findViewById(R.id.lvEmployeeResults)
 
         // Get selected employee ID from intent
         val selectedEmployeeId = intent.getStringExtra("selected_employee_id")
@@ -37,6 +44,9 @@ class EmployeeDetailsActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Error: No employee ID provided.", Toast.LENGTH_SHORT).show()
         }
+
+        // Load employee list if needed
+        loadEmployeeList()
     }
 
     private fun fetchEmployeeDetails(employeeId: String) {
@@ -54,6 +64,30 @@ class EmployeeDetailsActivity : AppCompatActivity() {
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Error fetching details: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun loadEmployeeList() {
+        db.collection("actual_employees")
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Toast.makeText(this, "Failed to listen for updates.", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
+
+                employeeList.clear()
+                employeeIds.clear()
+
+                for (document in snapshots!!) {
+                    val fullName = document.getString("FullName") ?: "Unnamed Employee"
+                    val employeeId = document.id
+
+                    employeeList.add(fullName)
+                    employeeIds.add(employeeId)
+                }
+
+                val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, employeeList)
+                lvEmployeeResults.adapter = adapter
             }
     }
 }
